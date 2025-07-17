@@ -1,0 +1,148 @@
+.dashboard-layout {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+
+  .navbar {
+    height: 90px;
+    background-color: #0a081c;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 1.5rem;
+  
+  }
+    .avatar {
+      width: 35px;
+      height: 35px;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+
+    .profile-menu {
+      position: absolute;
+      right: 1rem;
+      top: 60px;
+      background: white;
+      color: #333;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      padding: 0.5rem;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+
+      a {
+        display: block;
+        padding: 5px 10px;
+        text-decoration: none;
+        color: inherit;
+
+        &:hover {
+          background-color: #f0f0f0;
+        }
+      }
+    }
+  }
+
+
+  mat-sidenav-container.sidenav-container {
+    flex: 1;
+    height: 100%; // prend le reste de la page
+    overflow: hidden;
+    margin-top: 90px;
+  }
+
+.sidebar {
+  width: 260px;
+  height: 100%;
+  box-sizing: border-box;
+
+  background-color: #ffffff;
+  border-right: 1px solid #e0e0e0;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.03);
+  overflow: hidden;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 2rem;
+
+  img {
+    width: 150px;
+  }
+}
+
+.nav-wrapper {
+  flex: 1;
+  overflow-y: auto;
+  padding-right: 5px;
+}
+.left{
+  height: 20px;
+  width: 30px;
+}
+.imggg{
+ 
+  width: 190px;
+}
+
+.nav-section {
+  margin-bottom: 1.5rem;
+
+  h3 {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: #000000;
+    margin-bottom: 0.5rem;
+    padding-left: 10px;
+    text-transform: uppercase;
+  }
+
+  mat-nav-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+
+    mat-list-item a {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      color: #424242;
+      cursor: pointer;
+      transition: all 0.2s ease-in-out;
+
+      iconify-icon {
+        color: #3f51b5;
+      }
+
+      &.active {
+        font-weight: 600;
+
+        iconify-icon {
+          color: #1a237e;
+        }
+      }
+    }
+  }
+}
+
+.nav-wrapper::-webkit-scrollbar {
+  width: 6px;
+}
+
+.nav-wrapper::-webkit-scrollbar-thumb {
+  background-color: rgba(63, 81, 181, 0.5);
+  border-radius: 10px;
+}
+
+.nav-wrapper::-webkit-scrollbar-track {
+  background: transparent;
+}

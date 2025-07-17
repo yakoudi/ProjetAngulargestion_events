@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Demander un événement</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      font-family: 'Segoe UI', sans-serif;
+   
+    }
+
+    .page-container {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 40px 20px;
+    }
+
+    .content-card {
+      background-color: white;
+      border-radius: 16px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+      padding: 40px 30px;
+      width: 100%;
+      max-width: 1200px;
+    }
+
+    .header-utilisateur {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .search-bar {
+      padding: 10px 16px;
+      border-radius: 30px;
+      border: 1px solid #ccc;
+      outline: none;
+      font-size: 16px;
+      width: 300px;
+      background-color: #fff;
+      color: #1A1C3A;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .styled-table {
+      width: 100%;
+      border-collapse: collapse;
+      color: #1A1C3A;
+    }
+
+    .styled-table thead {
+      background: linear-gradient(to right, #00AEEF, #B13D87, #FF5F6D);
+      color: white;
+    }
+
+    .styled-table th,
+    .styled-table td {
+      padding: 12px 15px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .styled-table tbody tr:hover {
+      background-color: #f9f9f9;
+    }
+
+    button[mat-flat-button] {
+      background: linear-gradient(to right, #7F3FBF, #FF5F6D) !important;
+      color: white !important;
+      font-weight: bold;
+      border-radius: 30px;
+      padding: 10px 20px;
+      border: none;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button[mat-flat-button]:hover {
+      opacity: 0.9;
+    }
+
+    button[mat-icon-button] {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #FF5F6D;
+    }
+
+    mat-icon {
+      font-size: 20px;
+    }
+
+    @media (max-width: 768px) {
+      .search-bar {
+        width: 100%;
+      }
+
+      .styled-table th,
+      .styled-table td {
+        padding: 10px;
+        font-size: 14px;
+      }
+
+      .header-utilisateur {
+        flex-direction: column;
+        align-items: stretch;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="dialog-container">
+    <h2 class="dialog-title">📅 Demander un événement</h2>
+
+    <!-- Message de succès -->
+    <div *ngIf="successMessage" class="success-message">
+      {{ successMessage }}
+    </div>
+
+    <form class="dialog-form" [formGroup]="evenementForm" (ngSubmit)="onSubmit()">
+      <div>
+        <label for="titre">Titre*</label>
+        <input id="titre" type="text" formControlName="titre" />
+        <div class="form-error" *ngIf="evenementForm.get('titre')?.invalid && evenementForm.get('titre')?.touched">
+          Le titre est obligatoire.
+        </div>
+      </div>
+
+      <div>
+        <label for="description">Description*</label>
+        <textarea id="description" rows="3" formControlName="description"></textarea>
+        <div class="form-error" *ngIf="evenementForm.get('description')?.invalid && evenementForm.get('description')?.touched">
+          La description est obligatoire.
+        </div>
+      </div>
+
+      <div>
+        <label for="dateDebut">Date début*</label>
+        <input id="dateDebut" type="date" formControlName="dateDebut" />
+        <div class="form-error" *ngIf="evenementForm.get('dateDebut')?.invalid && evenementForm.get('dateDebut')?.touched">
+          La date début est obligatoire.
+        </div>
+      </div>
+
+      <div>
+        <label for="dateFin">Date fin*</label>
+        <input id="dateFin" type="date" formControlName="dateFin" />
+        <div class="form-error" *ngIf="evenementForm.get('dateFin')?.invalid && evenementForm.get('dateFin')?.touched">
+          La date fin est obligatoire.
+        </div>
+      </div>
+
+      <div>
+        <label for="lieu">Lieu</label>
+        <input id="lieu" type="text" formControlName="lieu" />
+      </div>
+
+      <div>
+        <label for="degreImportance">Degré d'importance</label>
+        <input id="degreImportance" type="text" formControlName="degreImportance" />
+      </div>
+
+      <div>
+        <label for="cout">Coût</label>
+        <input id="cout" type="number" formControlName="cout" />
+      </div>
+
+      <div>
+        <label for="categorieEvenement">Catégorie</label>
+        <input id="categorieEvenement" type="text" formControlName="categorieEvenement" />
+      </div>
+
+      <div class="dialog-actions">
+        <button type="button" class="cancel-btn" (click)="onCancel()">Annuler</button>
+        <button type="submit" class="confirm-btn" [disabled]="evenementForm.invalid">Envoyer la demande</button>
+      </div>
+    </form>
+  </div>
+
+</body>
+</html>

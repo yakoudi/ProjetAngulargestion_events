@@ -1,0 +1,64 @@
+<h2 mat-dialog-title>➕ Ajouter un utilisateur</h2>
+
+<mat-dialog-content [formGroup]="form" class="dialog-form">
+
+  <mat-form-field appearance="outline" class="w-100">
+    <mat-label>Nom</mat-label>
+    <input matInput formControlName="nom">
+    <mat-error *ngIf="form.get('nom')?.hasError('required')">
+      Le nom est obligatoire.
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="w-100">
+    <mat-label>Prénom</mat-label>
+    <input matInput formControlName="prenom">
+    <mat-error *ngIf="form.get('prenom')?.hasError('required')">
+      Le prénom est obligatoire.
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="w-100">
+    <mat-label>Email</mat-label>
+    <input matInput formControlName="email" type="email">
+    <mat-error *ngIf="form.get('email')?.hasError('required')">
+      L'email est obligatoire.
+    </mat-error>
+    <mat-error *ngIf="form.get('email')?.hasError('email')">
+      Format d'email invalide.
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="w-100">
+    <mat-label>Mot de passe</mat-label>
+    <input matInput formControlName="password" type="password">
+    <mat-error *ngIf="form.get('password')?.hasError('required')">
+      Le mot de passe est obligatoire.
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="w-100">
+    <mat-label>Id parent</mat-label>
+    <input matInput formControlName="idparent" type="number">
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="w-100">
+    <mat-label>Rôle</mat-label>
+    <mat-select formControlName="role">
+      <mat-option value="SUPERIEUR_HEARARCHIQUE">Supérieur hiérarchique</mat-option>
+      <mat-option value="EMPLOYE">Employé</mat-option>
+      <mat-option value="DIRECTEUR">Directeur</mat-option>
+    </mat-select>
+    <mat-error *ngIf="form.get('role')?.hasError('required')">
+      Le rôle est obligatoire.
+    </mat-error>
+  </mat-form-field>
+
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()">Annuler</button>
+  <button mat-flat-button color="primary" [disabled]="form.invalid" (click)="onSubmit()">
+    Ajouter
+  </button>
+</mat-dialog-actions>

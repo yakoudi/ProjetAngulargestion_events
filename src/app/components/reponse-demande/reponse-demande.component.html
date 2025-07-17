@@ -1,0 +1,34 @@
+<h2>📋 Demandes en attente</h2>
+
+<div *ngIf="message" style="color: green;">{{ message }}</div>
+
+<table border="1" width="100%">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Titre</th>
+      <th>Description</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let demande of demandes">
+      <td>{{ demande.id }}</td>
+      <td>{{ demande.titre }}</td>
+      <td>{{ demande.description }}</td>
+      <td>
+        <button (click)="valider(demande.id)">✅ Valider</button>
+        <button (click)="ouvrirRejet(demande.id)">❌ Rejeter</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- Formulaire de rejet -->
+<div *ngIf="selectedId !== null" style="margin-top: 1rem; border-top: 1px solid gray; padding-top: 1rem;">
+  <h3>❌ Rejet de la demande ID {{ selectedId }}</h3>
+  <textarea [(ngModel)]="commentaireRejet" rows="3" cols="50" placeholder="Commentaire du RH..."></textarea>
+  <br />
+  <button (click)="rejeter()">Confirmer rejet</button>
+  <button (click)="annulerRejet()">Annuler</button>
+</div>

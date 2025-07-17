@@ -1,0 +1,65 @@
+:root {
+  --tessi-bg: #f4f4fa;
+  --tessi-primary: #e4649f;
+  --tessi-secondary: #8e79e9;
+  --tessi-dark: #1d1c3b;
+  --tessi-white: #fff;
+}
+
+.container {
+  max-width: 600px;
+  margin: 40px auto;
+  padding: 25px;
+  background: var(--tessi-white);
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+  text-align: center;
+  color: var(--tessi-dark);
+  margin-bottom: 25px;
+  font-weight: 600;
+}
+
+.form-box {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  font-weight: 600;
+  color: var(--tessi-dark);
+  margin-bottom: 6px;
+  font-size: 14px;
+}
+
+input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+.submit-btn {
+  margin-top: 20px;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  background: linear-gradient(to right, var(--tessi-primary), var(--tessi-secondary));
+  color: var(--tessi-white);
+  font-weight: bold;
+  font-size: 15px;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.submit-btn:hover {
+  opacity: 0.9;
+}
