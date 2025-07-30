@@ -1,121 +1,179 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Accueil - Tessi Style</title>
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet" />
+
+
+</head>
+<body>
+
+  <!-- Navbar -->
   <nav class="navbar navbar-expand-lg">
-                <div class="container">
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
+    <div class="container">
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarNav"
+        aria-controls="navbarNav"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
 
-                    <a class="navbar-brand" href="index.html">
-                        <img class="image-logo" src="assets/images/logos/logo-vectoriel-tessi.jpg" >
-                    </a>
+      <a class="navbar-brand" href="index.html">
+        <img src="assets/images/logos/OIP-removebg-preview.png" alt="Tessi Logo" />
+      </a>
 
-                    <div class="d-lg-none">
-                        <a href="sign-in.html" class="bi-person custom-icon me-3"></a>
+      <div class="d-lg-none">
+        <a href="sign-in.html" class="bi-person custom-icon me-3" title="Se connecter"></a>
+        <a href="product-detail.html" class="bi-bag custom-icon" title="Panier"></a>
+      </div>
 
-                        <a href="product-detail.html" class="bi-bag custom-icon"></a>
-                    </div>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav mx-auto">
+          <li class="nav-item">
+            <a class="nav-link active" href="index.html">Accueil</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="about.html">Événements</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="products.html">À propos</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="faq.html">Contact</a>
+          </li>
+        </ul>
 
-                    <div class="collapse navbar-collapse" id="navbarNav">
-                        <ul class="navbar-nav mx-auto">
-                            <li class="nav-item">  
-                                <a class="nav-link active" href="index.html">Accueil</a>
-                            </li>
+        <div class="d-none d-lg-block">
+          <a href="/authentication/login" title="Se connecter">
+            <i class="bi bi-person" style="font-size: 2rem; color: #d1d1d1;"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </nav>
 
-                            <li class="nav-item">
-                                <a class="nav-link" href="about.html">Événements</a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a class="nav-link" href="products.html">À propos</a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a class="nav-link" href="faq.html">Contact </a>
-                            </li>
-
-                           
-                        </ul>
-
-                        <div class="d-none d-lg-block">
-                            <a [routerLink]="['/authentication/login']" routerLinkActive="router-link-active" > <i class="bi bi-person" style="font-size: 2rem;"></i></a>
-
-                           
-                        </div>
-                    </div>
-                </div>
-            </nav>
-
-            <section class="slick-slideshow">   
-                <div class="slick-custom">
-                    <div class="image-container">
-  <img src="assets/images/blog/kk.png" alt="image" />
+<!-- Bande bleue avec titre et paragraphe -->
+<div class="hero-bar">
+  <h1>Gestion des événements</h1>
+  <p>
+    Bienvenue sur la plateforme de gestion des événements d'entreprise.
+    Facilitez la planification, la validation et le suivi des événements internes.
+  </p>
 </div>
 
-                    <div class="slick-bottom">
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-lg-6 col-10">
-                                    <h1 class="slick-title">Gestion des evénements </h1>
+<div class="bandes-fixes">
+  <span></span>
+  <span></span>
+  <span></span>
+</div>
 
-                                    <p class="lead text-white mt-lg-3 mb-lg-5">Bienvenue sur la plateforme de gestion des événements d'entreprise.
-                                   Facilitez la planification, la validation et le suivi des événements internes .</p>
+  <div class="bandes-tessi">
+    <div></div>
+    <div></div>
+    <div></div>
+  </div>
 
-                                    
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+  <!-- Section blanche liste événements -->
+  <section class="events-list">
+    <div class="container">
+      <h2>Événements à venir</h2>
+      <div class="row g-4">
 
-               
-
-            </section>
-            
-
-          
-
-
-        <footer class="site-footer">
-            <div class="container">
-                <div class="row">
-
-                    <div class="col-lg-3 col-10 me-auto mb-4">
-                        <h4 class="text-white mb-3"><a href="index.html">Little</a> Fashion</h4>
-                        <p class="copyright-text text-muted mt-lg-5 mb-4 mb-lg-0">Copyright © 2022 <strong>Little Fashion</strong></p>
-                        <br>
-                        <p class="copyright-text">Designed by <a href="https://www.tooplate.com/" target="_blank">Tooplate</a></p>
-                    </div>
-
-                    <div class="col-lg-5 col-8">
-                        <h5 class="text-white mb-3">Sitemap</h5>
-
-                        <ul class="footer-menu d-flex flex-wrap">
-                            <li class="footer-menu-item"><a href="about.html" class="footer-menu-link">Story</a></li>
-
-                            <li class="footer-menu-item"><a href="#" class="footer-menu-link">Products</a></li>
-
-                            <li class="footer-menu-item"><a href="#" class="footer-menu-link">Privacy policy</a></li>
-
-                            <li class="footer-menu-item"><a href="#" class="footer-menu-link">FAQs</a></li>
-
-                            <li class="footer-menu-item"><a href="#" class="footer-menu-link">Contact</a></li>
-                        </ul>
-                    </div>
-
-                    <div class="col-lg-3 col-4">
-                        <h5 class="text-white mb-3">Social</h5>
-
-                        <ul class="social-icon">
-
-                            <li><a href="#" class="social-icon-link bi-youtube"></a></li>
-
-                            <li><a href="#" class="social-icon-link bi-whatsapp"></a></li>
-
-                            <li><a href="#" class="social-icon-link bi-instagram"></a></li>
-
-                            <li><a href="#" class="social-icon-link bi-skype"></a></li>
-                        </ul>
-                    </div>
-
-                </div>
+        <!-- Carte événement 1 -->
+        <div class="col-md-6 col-lg-4">
+          <div class="card">
+            <img src="https://picsum.photos/400/180?random=1" class="card-img-top" alt="Événement 1" />
+            <div class="card-body">
+              <h5 class="card-title">Conférence Innovation Digitale</h5>
+              <p class="card-text">Une journée dédiée aux dernières tendances de la transformation digitale.</p>
+              <p><strong>Date :</strong> 25 août 2025</p>
+              <a href="#" class="btn btn-primary">En savoir plus</a>
             </div>
-        </footer>
+          </div>
+        </div>
+
+        <!-- Carte événement 2 -->
+        <div class="col-md-6 col-lg-4">
+          <div class="card">
+            <img src="https://picsum.photos/400/180?random=2" class="card-img-top" alt="Événement 2" />
+            <div class="card-body">
+              <h5 class="card-title">Atelier Gestion de Projet</h5>
+              <p class="card-text">Apprenez les meilleures pratiques pour gérer efficacement vos projets.</p>
+              <p><strong>Date :</strong> 10 septembre 2025</p>
+              <a href="#" class="btn btn-primary">En savoir plus</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Carte événement 3 -->
+        <div class="col-md-6 col-lg-4">
+          <div class="card">
+            <img src="https://picsum.photos/400/180?random=3" class="card-img-top" alt="Événement 3" />
+            <div class="card-body">
+              <h5 class="card-title">Séminaire Développement Durable</h5>
+              <p class="card-text">Découvrez comment intégrer les objectifs durables dans votre activité.</p>
+              <p><strong>Date :</strong> 18 septembre 2025</p>
+              <a href="#" class="btn btn-primary">En savoir plus</a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="row">
+
+        <div class="col-lg-3 col-10 me-auto mb-4">
+          <h4 class="mb-3"><a href="index.html" style="color:#ff4ec6; text-decoration:none;">Tessi</a></h4>
+          <p class="copyright-text mt-lg-4 mb-4 mb-lg-0" style="color:#bbb;">
+            © 2022 <strong>Tessi</strong>
+          </p>
+          <p>
+            Designed by <a href="https://www.tooplate.com/" target="_blank" rel="noopener noreferrer">Tooplate</a>
+          </p>
+        </div>
+
+        <div class="col-lg-5 col-8">
+          <h5 class="mb-3" style="color:#ff4ec6;">Sitemap</h5>
+          <ul class="footer-menu d-flex flex-wrap">
+            <li class="footer-menu-item"><a href="about.html" class="footer-menu-link">Story</a></li>
+            <li class="footer-menu-item"><a href="#" class="footer-menu-link">Products</a></li>
+            <li class="footer-menu-item"><a href="#" class="footer-menu-link">Privacy policy</a></li>
+            <li class="footer-menu-item"><a href="#" class="footer-menu-link">FAQs</a></li>
+            <li class="footer-menu-item"><a href="#" class="footer-menu-link">Contact</a></li>
+          </ul>
+        </div>
+
+        <div class="col-lg-3 col-4">
+          <h5 class="mb-3" style="color:#ff4ec6;">Social</h5>
+          <ul class="social-icon">
+            <li><a href="#" class="social-icon-link bi-youtube" aria-label="YouTube"></a></li>
+            <li><a href="#" class="social-icon-link bi-whatsapp" aria-label="WhatsApp"></a></li>
+            <li><a href="#" class="social-icon-link bi-instagram" aria-label="Instagram"></a></li>
+            <li><a href="#" class="social-icon-link bi-skype" aria-label="Skype"></a></li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+  </footer>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

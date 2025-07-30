@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Liste des Invitations</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: transparent;
+    }
+
+    .page-container {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 10px 20px;
+    }
+
+    .content-card {
+      background-color: white;
+      border-radius: 16px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+      padding: 40px 30px;
+      width: 100%;
+      max-width: 12000px;
+    }
+
+    .header-utilisateur {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .search-bar {
+      padding: 10px 16px;
+      border-radius: 30px;
+      border: 1px solid #ccc;
+      outline: none;
+      font-size: 16px;
+      width: 300px;
+      background-color: #fff;
+      color: #1A1C3A;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .styled-table {
+      width: 100%;
+      border-collapse: collapse;
+      color: #1A1C3A;
+    }
+
+    .styled-table thead {
+      background: linear-gradient(to right, #00AEEF, #B13D87, #FF5F6D);
+      color: white;
+    }
+
+    .styled-table th,
+    .styled-table td {
+      padding: 12px 15px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .styled-table tbody tr:hover {
+      background-color: #f9f9f9;
+    }
+
+    button[mat-flat-button] {
+      background: linear-gradient(to right, #7F3FBF, #FF5F6D) !important;
+      color: white !important;
+      font-weight: 500;
+      font-size: 14px;
+      border-radius: 30px;
+      padding: 8px 16px;
+      border: none;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button[mat-flat-button]:hover {
+      opacity: 0.9;
+    }
+
+    button[mat-icon-button] {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #FF5F6D;
+    }
+
+    mat-icon {
+      font-size: 22px;
+    }
+
+    @media (max-width: 768px) {
+      .search-bar {
+        width: 100%;
+      }
+
+      .styled-table th,
+      .styled-table td {
+        padding: 10px;
+        font-size: 14px;
+      }
+
+      .header-utilisateur {
+        flex-direction: column;
+        align-items: stretch;
+      }
+    }
+
+    .page-title {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      font-weight: 700;
+      font-size: 2.5rem;
+      background: linear-gradient(90deg, #7F3FBF, #FF5F6D);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 30px;
+      text-align: center;
+      letter-spacing: 2px;
+    }
+
+    .status-btn {
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-weight: 600;
+      font-size: 14px;
+      color: white;
+      cursor: default;
+      min-width: 90px;
+      text-align: center;
+      border: none;
+    }
+
+    .status-validee {
+      background-color: #28a745;
+    }
+
+    .status-en_attente {
+      background-color: #ffc107;
+      color: #333;
+    }
+
+    .status-rejetee {
+      background-color: #dc3545;
+    }
+
+    .actions-wrapper {
+      display: flex;
+      gap: 15px;
+    }
+
+    .action-btn {
+      border: 1px solid;
+      background: transparent;
+      border-radius: 30px;
+      padding: 6px 16px;
+      font-weight: 500;
+      font-size: 14px;
+      cursor: pointer;
+      transition: 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .action-btn mat-icon {
+      font-size: 20px;
+    }
+
+    .btn-info {
+      color: #00AEEF;
+      border-color: #00AEEF;
+    }
+    .btn-info:hover {
+      background-color: #00AEEF;
+      color: white;
+    }
+    .btn-info:hover mat-icon {
+      color: white;
+    }
+
+    .btn-edit {
+      color: #7F3FBF;
+      border-color: #7F3FBF;
+    }
+    .btn-edit:hover {
+      background-color: #7F3FBF;
+      color: white;
+    }
+    .btn-edit:hover mat-icon {
+      color: white;
+    }
+
+    .btn-delete {
+      color: #FF5F6D;
+      border-color: #FF5F6D;
+    }
+    .btn-delete:hover {
+      background-color: #FF5F6D;
+      color: white;
+    }
+    .btn-delete:hover mat-icon {
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <div class="page-container">
+    <div class="content-card">
+      <h2 class="page-title">Liste des Invitations</h2>
+
+      <div class="header-utilisateur">
+        <button mat-flat-button (click)="openAjoutDialog()">
+          + Envoyer Invitation
+        </button>
+      </div>
+
+      <table class="styled-table">
+        <thead>
+          <tr>
+            <th>Utilisateur (Nom Prénom)</th>
+            <th>Email</th>
+            <th>Événement</th>
+            <th>Statut</th>
+            <th>Message</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let invitation of invitations">
+            <td>{{ invitation.nom || 'Nom inconnu' }} {{ invitation.prenom || '' }}</td>
+            <td>{{ invitation.email || 'Email inconnu' }}</td>
+            <td>{{ invitation.titre || 'Événement inconnu' }}</td>
+            <td>
+              <button class="status-btn"
+                [ngClass]="{
+                  'status-validee': invitation.statusInvitation === 'VALIDEE',
+                  'status-en_attente': invitation.statusInvitation === 'EN_ATTENTE',
+                  'status-rejetee': invitation.statusInvitation === 'REJETEE'
+                }" disabled>
+                {{ invitation.statusInvitation }}
+              </button>
+            </td>
+            <td>{{ invitation.message }}</td>
+            <td>
+              <div class="actions-wrapper">
+                <button class="action-btn btn-edit" (click)="ouvrirModifierInvitationDialog(invitation)">
+                  <mat-icon>edit</mat-icon>
+                </button>
+                <button class="action-btn btn-delete" (click)="supprimerInvitation(invitation)">
+                  <mat-icon>delete</mat-icon>
+                </button>
+               
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <mat-paginator [pageSizeOptions]="[5, 10, 25]" showFirstLastButtons></mat-paginator>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,17 +1,20 @@
 <div class="dashboard-layout">
   <!-- NAVBAR -->
   <header class="navbar">
-    
-      <img src="assets/images/logos/OIP-removebg-preview.png"  class="imggg">   
-       <div class="right">
-      <img src="assets/images/people/beautiful-woman-face-portrait-brown-background.jpeg" class="avatar" (click)="toggleProfileMenu = !toggleProfileMenu" />
-      <div class="profile-menu" *ngIf="toggleProfileMenu">
-        <a routerLink="/dashboard/RH/modifier-profil">Modifier profil</a>
-        <a routerLink="/dashboard/RH/changer-mot-de-passe">Changer mot de passe</a>
-        <a (click)="logout()">Quitter</a>
-      </div>
+    <img src="assets/images/logos/OIP-removebg-preview.png" class="imggg" />
+
+   
+
+
+    <!-- Menu Profil -->
+    <div class="profile-menu" *ngIf="toggleProfileMenu">
+      <a routerLink="dashboard/superieur/profil">Modifier profil</a>
+      <a routerLink="/dashboard/RH/changer-mot-de-passe">Changer mot de passe</a>
+      <a (click)="logout()" style="cursor: pointer;">Quitter</a>
     </div>
   </header>
+
+
 
 
 <mat-sidenav-container class="sidenav-container">
@@ -41,7 +44,7 @@
             <mat-list-item routerLink="/dashboard/RH/reponse-demande" routerLinkActive="active-link">
               <a>
                 <iconify-icon icon="solar:chat-round-line-line-duotone" style="font-size: 20px;"></iconify-icon>
-               reponse-demande
+               Liste des demandes
               </a>
             </mat-list-item>
 
@@ -51,18 +54,27 @@
                 Utilisateurs
               </a>
             </mat-list-item>
-
-            <mat-list-item>
+              
+                   <mat-list-item routerLink="/dashboard/RH/fournisseurs" routerLinkActive="active-link">
+              <a>
+                
+                     <iconify-icon icon="mdi:truck-outline" style="font-size: 20px; color: #2563eb;"></iconify-icon>
+         
+                 liste des Fourniseur  
+              </a>
+            </mat-list-item >
+            <mat-list-item routerLink="/dashboard/RH/card" routerLinkActive="active-link">
               <a>
                 <iconify-icon icon="solar:calendar-mark-line-duotone" style="font-size: 20px;"></iconify-icon>
                 Calendar
               </a>
+         
             </mat-list-item>
 
-            <mat-list-item>
+            <mat-list-item   routerLink="/dashboard/RH/invitation" routerLinkActive="active-link">
               <a>
                 <iconify-icon icon="solar:letter-line-duotone" style="font-size: 20px;"></iconify-icon>
-                Email
+                liste des invitations
               </a>
             </mat-list-item>
 
@@ -85,7 +97,7 @@
         <div class="nav-section">
           <h3>Pages</h3>
           <mat-nav-list>
-            <mat-list-item>
+            <mat-list-item   routerLink="/dashboard/superieur/profil" routerLinkActive="active-link">
               <a>
                 <iconify-icon icon="solar:accessibility-line-duotone" style="font-size: 20px;"></iconify-icon>
                 Account Setting

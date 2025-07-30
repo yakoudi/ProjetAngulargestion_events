@@ -1,34 +1,76 @@
-<h2>📋 Demandes en attente</h2>
 
-<div *ngIf="message" style="color: green;">{{ message }}</div>
+<h2 class="section-title">📋 Liste des demandes en attente</h2>
 
-<table border="1" width="100%">
-  <thead>
-    <tr>
-      <th>ID</th>
-      <th>Titre</th>
-      <th>Description</th>
-      <th>Action</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let demande of demandes">
-      <td>{{ demande.id }}</td>
-      <td>{{ demande.titre }}</td>
-      <td>{{ demande.description }}</td>
-      <td>
-        <button (click)="valider(demande.id)">✅ Valider</button>
-        <button (click)="ouvrirRejet(demande.id)">❌ Rejeter</button>
-      </td>
-    </tr>
-  </tbody>
-</table>
 
-<!-- Formulaire de rejet -->
-<div *ngIf="selectedId !== null" style="margin-top: 1rem; border-top: 1px solid gray; padding-top: 1rem;">
-  <h3>❌ Rejet de la demande ID {{ selectedId }}</h3>
-  <textarea [(ngModel)]="commentaireRejet" rows="3" cols="50" placeholder="Commentaire du RH..."></textarea>
-  <br />
-  <button (click)="rejeter()">Confirmer rejet</button>
-  <button (click)="annulerRejet()">Annuler</button>
+<div class="btn-history-actions">
+  <button mat-raised-button color="primary" (click)="chargerDemandesEnAttente()">🕒 En attente</button>
+  <button mat-raised-button color="accent" (click)="chargerDemandesValidees()">✅ Validées</button>
+  <button mat-raised-button color="warn" (click)="chargerDemandesRejetees()">❌ Rejetées</button>
+</div>
+
+
+<div class="table-container">
+  <table class="styled-table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nom</th>
+      
+         <th>Email</th>
+        <th>Titre</th>
+        <th>Description</th>
+        <th>Date début</th>
+        <th>Date fin</th>
+        <th>Lieu</th>
+        <th>Coût</th>
+        <th>Catégorie</th>
+        <th>Importance</th>
+        <th>Commentaire RH</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let demande of demandes">
+        <td>{{ demande.idEvenement }}</td>
+          <td>{{ demande.createur.nom }} {{ demande.createur.prenom }}</td>
+      <td>{{ demande.createur.email }}</td>
+        <td>{{ demande.titre }}</td>
+        <td>{{ demande.description }}</td>
+        <td>{{ demande.dateDebut | date:'shortDate' }}</td>
+        <td>{{ demande.dateFin | date:'shortDate' }}</td>
+        <td>{{ demande.lieu }}</td>
+        <td>{{ demande.cout }} TND</td>
+        <td>{{ demande.categorieEvenement }}</td>
+        <td>{{ demande.degreImportance }}</td>
+        <td>
+          <textarea
+            [(ngModel)]="commentaireMap[demande.idEvenement]"
+            placeholder="Commentaire si rejet"
+            class="comment-textarea"
+            rows="2"
+          ></textarea>
+        </td>
+        <td>
+        <button class="icon-btn validate" (click)="ouvrirDialogValidation(demande)" matTooltip="Valider">
+  <mat-icon>check</mat-icon>
+</button>
+
+          <button class="icon-btn reject" (click)="rejeter(demande.idEvenement)" matTooltip="Rejeter">
+            <mat-icon>close</mat-icon>
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Place le template du dialog ici, en dehors de la table -->
+  <ng-template #dialogMessage>
+    <h2 mat-dialog-title>Attention</h2>
+    <mat-dialog-content>
+      <p>⚠️ Veuillez envoyer un commentaire avant de rejeter la demande.</p>
+    </mat-dialog-content>
+    <mat-dialog-actions align="end">
+      <button mat-button color="primary" (click)="closeDialog()">OK</button>
+    </mat-dialog-actions>
+  </ng-template>
 </div>

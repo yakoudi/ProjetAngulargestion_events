@@ -1,14 +1,15 @@
-import { CommonModule } from '@angular/common';
-import { Component, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+
+import { Component, CUSTOM_ELEMENTS_SCHEMA, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { Router, RouterLink, RouterModule, RouterOutlet } from '@angular/router';
-
-import { MaterialModule } from 'src/app/material.module';
-import { ModifierProfilComponent } from '../modifier-profil/modifier-profil.component';
+import { NotificationsComponent } from '../notifications/notifications.component';
+import { UserService } from '../../services/user.service';
+import { MaterialModule } from '../../material.module'; // Assurez-vous que le chemin est correct
+import { CommonModule } from '@angular/common';
  
 @Component({
   selector: 'app-dashbord-superieur-heararchique',
@@ -19,37 +20,51 @@ import { ModifierProfilComponent } from '../modifier-profil/modifier-profil.comp
           MatMenuModule,
           MatButtonModule,
           RouterOutlet,
-          RouterLink,RouterModule
+          RouterLink,RouterModule,
+          NotificationsComponent
        ],
-        schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   templateUrl: './dashbord-superieur-heararchique.component.html',
-  styleUrl: './dashbord-superieur-heararchique.component.scss'
-})
-export class DashbordSuperieurHeararchiqueComponent {
+ styleUrls: ['./dashbord-superieur-heararchique.component.scss']
+ })
+
+export class DashbordSuperieurHeararchiqueComponent implements OnInit{
      toggleProfileMenu = false;
- 
-   constructor(private router: Router ,private dialog: MatDialog) {}
+     toggleNotif = false;
+     invitations : any[] = [];
+     photoUrl: string = 'assets/images/default-avatar.jpg'; // image par défaut
+   constructor(private router: Router ,private dialog: MatDialog,private utilisateurService: UserService) {}
  
    logout() {
      localStorage.removeItem('token');
      this.router.navigate(['/login']);
    }
-     ouvrirModifierProfil() {
-     const dialogRef = this.dialog.open(ModifierProfilComponent, {
-       width: '500px',
-       data: {
-         nom: 'Dupont',
-         prenom: 'Jean',
-         email: 'jean.dupont@example.com'
-       }
-     });
+    
+
+   ngOnInit(): void {
+    this.utilisateurService.getCurrentUser().subscribe(user => {
+      if (user.photo) {
+      }
+    });
+  }
+
  
-     dialogRef.afterClosed().subscribe(result => {
-       if (result) {
-         console.log('Données enregistrées :', result);
-         // Appelle le service de modification ici si besoin
-       }
-     });
-   }
+
+
+
+   ouvrirNotifications() {
+  const dialogRef = this.dialog.open(NotificationsComponent, {
+    width: '500px', // adapte la taille si besoin
+  });
+
+  dialogRef.afterClosed().subscribe(result => {
+    // tu peux traiter les données retournées ici si nécessaire
+    console.log("Dialog des notifications fermé");
+  });
+}
+
+
+   
+
 
 }

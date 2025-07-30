@@ -1,0 +1,181 @@
+<style>
+  /* Conteneur des notifications en bas à droite */
+  .notification-badge {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #3f51b5;
+    color: white;
+    padding: 10px 14px;
+    border-radius: 30px;
+    cursor: pointer;
+    font-weight: 600;
+    box-shadow: 0 4px 8px rgba(63,81,181,0.4);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    z-index: 3000;
+  }
+
+  .notification-badge .icon {
+    font-size: 20px;
+  }
+
+  /* Liste déroulante des notifications */
+  .notification-list {
+    position: fixed;
+    bottom: 70px;
+    right: 20px;
+    width: 320px;
+    max-height: 400px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+    overflow-y: auto;
+    z-index: 3100;
+    padding: 10px 0;
+  }
+
+  .notif-item {
+    padding: 12px 20px;
+    border-bottom: 1px solid #ddd;
+    cursor: pointer;
+    transition: background-color 0.25s ease;
+  }
+
+  .notif-item:last-child {
+    border-bottom: none;
+  }
+
+  .notif-item:hover {
+    background-color: #e3f2fd;
+  }
+
+  .notif-item strong {
+    color: #3f51b5;
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  .notif-item small {
+    color: #555;
+  }
+
+  /* Modal backdrop */
+  .modal-backdrop {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    background: rgba(0,0,0,0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 4000;
+  }
+
+  /* Modal content */
+  .modal-content {
+    background: white;
+    padding: 25px 30px;
+    border-radius: 10px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+    width: 90%;
+    max-width: 480px;
+    max-height: 80vh;
+    overflow-y: auto;
+    position: relative;
+  }
+
+  .modal-content h2 {
+    margin-top: 0;
+    color: #3f51b5;
+  }
+
+  .modal-content p {
+    margin: 10px 0;
+    color: #333;
+  }
+
+  /* Buttons in modal */
+  .modal-content button {
+    background-color: transparent;
+    border: 2px solid #3f51b5;
+    color: #3f51b5;
+    padding: 8px 18px;
+    font-weight: 600;
+    font-size: 14px;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    min-width: 100px;
+    margin-right: 10px;
+    user-select: none;
+  }
+
+  .modal-content button:hover {
+    background-color: #3f51b5;
+    color: #fff;
+    box-shadow: 0 4px 12px rgba(63,81,181,0.3);
+  }
+
+  .modal-content button[color="warn"] {
+    border-color: #d32f2f;
+    color: #d32f2f;
+  }
+
+  .modal-content button[color="warn"]:hover {
+    background-color: #d32f2f;
+    color: #fff;
+    box-shadow: 0 4px 12px rgba(211,47,47,0.3);
+  }
+
+  /* Close button */
+  .btn-close {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: transparent;
+    border: none;
+    font-size: 20px;
+    color: #666;
+    cursor: pointer;
+    font-weight: bold;
+  }
+
+  .btn-close:hover {
+    color: #000;
+  }
+</style>
+
+<!-- Badge notifications toujours visible -->
+<div class="notification-badge" (click)="toggleNotificationList()">
+  <span class="icon">📬</span>
+  <span>Notifications ({{ invitations.length }})</span>
+</div>
+
+<!-- Liste déroulante des notifications, visible selon toggle -->
+<div class="notification-list" *ngIf="notificationListVisible">
+  <div *ngIf="invitations.length === 0" style="padding: 15px; text-align:center; color:#777;">
+    Aucune invitation reçue.
+  </div>
+  <div *ngFor="let invitation of invitations" class="notif-item" (click)="ouvrirInvitation(invitation)">
+    <strong>{{ invitation.titre || 'Titre non disponible' }}</strong>
+    <small>{{ invitation.dateDebut | date:'short' }}</small>
+  </div>
+</div>
+
+<!-- Modal d'invitation -->
+<div class="modal-backdrop" *ngIf="modalVisible" (click)="fermerModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <h2>{{ selectedInvitation?.titre }}</h2>
+    <p><strong>Message :</strong> {{ selectedInvitation?.message }}</p>
+    <p><strong>Description :</strong> {{ selectedInvitation?.description }}</p>
+    <p><strong>Date début :</strong> {{ selectedInvitation?.dateDebut | date:'fullDate' }}</p>
+    <p><strong>Date fin :</strong> {{ selectedInvitation?.dateFin | date:'fullDate' }}</p>
+    <p><strong>Lieu :</strong> {{ selectedInvitation?.lieu }}</p>
+
+    <button (click)="validerInvitation(selectedInvitation.idInvitation)">✅ Valider</button>
+    <button (click)="rejeterInvitation(selectedInvitation.idInvitation)" color="warn">❌ Rejeter</button>
+    <button (click)="fermerModal()" class="btn-close" aria-label="Fermer modal">✖</button>
+  </div>
+</div>

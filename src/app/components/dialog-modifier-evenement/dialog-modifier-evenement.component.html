@@ -1,47 +1,63 @@
-<div class="container">
-  <h2>Modifier l'événement</h2>
+<div class="page-container">
+  <div class="dialog-container">
+    <h2 class="dialog-title">✏️ Modifier l'événement</h2>
 
-  <form [formGroup]="form" (ngSubmit)="onSubmit()" class="form-box">
-    <div class="form-group">
-      <label for="titre">Titre</label>
-      <input formControlName="titre" id="titre" type="text" placeholder="Titre" required />
-    </div>
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="dialog-form">
 
-    <div class="form-group">
-      <label for="description">Description</label>
-      <input formControlName="description" id="description" type="text" placeholder="Description" />
-    </div>
+      <!-- Ligne Titre + Catégorie -->
+      <div class="form-row">
+        <div>
+          <label for="titre"><span class="icon">📝</span> Titre</label>
+          <input id="titre" type="text" formControlName="titre" placeholder="Titre" />
+        </div>
 
-    <div class="form-group">
-      <label for="dateDebut">Date début</label>
-      <input formControlName="dateDebut" id="dateDebut" type="date" />
-    </div>
+        <div>
+          <label for="categorie"><span class="icon">🏷️</span> Catégorie</label>
+          <input id="categorie" type="text" formControlName="categorieEvenement" placeholder="Catégorie" />
+        </div>
+      </div>
 
-    <div class="form-group">
-      <label for="dateFin">Date fin</label>
-      <input formControlName="dateFin" id="dateFin" type="date" />
-    </div>
+      <!-- Description (textarea plus large) -->
+      <div>
+        <label for="description"><span class="icon">🖋️</span> Description</label>
+        <textarea id="description" rows="4" formControlName="description" placeholder="Description"></textarea>
+      </div>
 
-    <div class="form-group">
-      <label for="lieu">Lieu</label>
-      <input formControlName="lieu" id="lieu" type="text" placeholder="Lieu" />
-    </div>
+      <!-- Ligne Date début + Date fin -->
+      <div class="form-row">
+        <div>
+          <label for="dateDebut"><span class="icon">📅</span> Date début</label>
+          <input id="dateDebut" type="date" formControlName="dateDebut" />
+        </div>
 
-    <div class="form-group">
-      <label for="cout">Coût</label>
-      <input formControlName="cout" id="cout" type="number" placeholder="Coût" />
-    </div>
+        <div>
+          <label for="dateFin"><span class="icon">📅</span> Date fin</label>
+          <input id="dateFin" type="date" formControlName="dateFin" />
+        </div>
+      </div>
 
-    <div class="form-group">
-      <label for="categorie">Catégorie</label>
-      <input formControlName="categorieEvenement" id="categorie" type="text" placeholder="Catégorie" />
-    </div>
+      <!-- Ligne Lieu + Importance -->
+      <div class="form-row">
+        <div>
+          <label for="lieu"><span class="icon">📍</span> Lieu</label>
+          <input id="lieu" type="text" formControlName="lieu" placeholder="Lieu" />
+        </div>
 
-    <div class="form-group">
-      <label for="importance">Importance</label>
-      <input formControlName="degreImportance" id="importance" type="text" placeholder="Importance" />
-    </div>
+        <div>
+          <label for="importance"><span class="icon">⚠️</span> Importance</label>
+          <input id="importance" type="text" formControlName="degreImportance" placeholder="Importance" />
+        </div>
+      </div>
 
-    <button type="submit" class="submit-btn">Modifier</button>
-  </form>
+      <!-- Coût (large) -->
+      <div>
+        <label for="cout"><span class="icon">💰</span> Coût</label>
+        <input id="cout" type="number" formControlName="cout" placeholder="Coût" />
+      </div>
+
+      <div class="dialog-actions">
+        <button type="submit" class="confirm-btn">Modifier</button>
+      </div>
+    </form>
+  </div>
 </div>

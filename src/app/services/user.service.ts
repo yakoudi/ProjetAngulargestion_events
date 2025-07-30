@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AuthServiceService } from './auth-service.service'; // adapte le chemin si besoin
 import { Observable } from 'rxjs';
-
+import { User } from '../Models/user.model';
 @Injectable({
   providedIn: 'root'
 })
@@ -16,18 +16,13 @@ export class UserService {
     return token ? { headers: new HttpHeaders({ Authorization: `Bearer ${token}` }) } : {};
   }
 
-  // Ajouter utilisateur
   add(user: any): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/ajouter`, user, this.getAuthHeaders());
   }
 
-
-  // Supprimer utilisateur
   delete(id: number): Observable<any> {
     return this.http.delete<any>(`${this.apiUrl}/supprimer/${id}`, this.getAuthHeaders());
   }
-
-  // Modifier utilisateur
 
   getAll(): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/liste`, this.getAuthHeaders());
@@ -37,4 +32,29 @@ export class UserService {
     return this.http.put(`${this.apiUrl}/modifier/${id}`, user, this.getAuthHeaders());
   }
 
+
+   getCurrentUser(): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/current`, this.getAuthHeaders());
+  }
+
+
+uploadPhoto(id: number, formData: FormData): Observable<string> {
+  return this.http.post(
+    `${this.apiUrl}/upload-photo/${id}`,
+    formData,
+    {
+      ...this.getAuthHeaders(),
+      responseType: 'text' // 👈 Ici on spécifie bien que la réponse est du texte brut
+    } as {
+      headers?: HttpHeaders;
+      responseType: 'text';
+    }
+  );
+}
+getUserPhoto(filename: string): string {
+  if (!filename) {
+    return 'assets/images/default-avatar.jpg';
+  }
+  return `http://localhost:8083/api/utilisateurs/photo/${filename}`;
+}
 }

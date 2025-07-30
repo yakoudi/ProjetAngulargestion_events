@@ -1,119 +1,144 @@
+<style>
+  * {
+    box-sizing: border-box;
+  }
 
-  <style>
-  
+  body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #f4f6f8;
+  }
 
-    body, html {
-      margin: 0;
-      padding: 0;
-      height: 100%;
-      font-family: 'Segoe UI', sans-serif;
-      background-color: transparent;
-   
-    }
+  .page-container {
+    min-height: 100vh;
+    padding: 20px;
+  }
 
-    .page-container {
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 10px 20px;
-    }
+  .content-card {
+    background-color: white;
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    padding: 30px 20px;
+    width: 100%;
+    overflow-x: auto;
+  }
 
-    .content-card {
-      background-color: white;
-      border-radius: 16px;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
-      padding: 40px 30px;
-      width: 100%;
-      max-width: 12000px;
-    }
+  .header-utilisateur {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
 
-    .header-utilisateur {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 30px;
-      flex-wrap: wrap;
-      gap: 10px;
-    }
+  .search-bar {
+    padding: 10px 16px;
+    border-radius: 30px;
+    border: 1px solid #ccc;
+    outline: none;
+    font-size: 16px;
+    width: 300px;
+    background-color: #fff;
+    color: #1A1C3A;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  }
 
+  .styled-table {
+    width: 100%;
+    border-collapse: collapse;
+    color: #1A1C3A;
+    font-size: 15px;
+  }
+
+  .styled-table thead {
+    background: linear-gradient(to right, #00AEEF, #B13D87, #FF5F6D);
+    color: white;
+  }
+
+  .styled-table th,
+  .styled-table td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+
+  .styled-table tbody tr:nth-child(even) {
+    background-color: #f3f3f3;
+  }
+
+  .styled-table tbody tr:nth-child(odd) {
+    background-color: #ffffff;
+  }
+
+  .styled-table tbody tr:hover {
+    background-color: #e9f5ff;
+  }
+
+  button[mat-flat-button] {
+    background: linear-gradient(to right, #7F3FBF, #FF5F6D) !important;
+    color: white !important;
+    font-weight: bold;
+    border-radius: 30px;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+
+  button[mat-flat-button]:hover {
+    opacity: 0.9;
+  }
+
+  button[mat-icon-button] {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #FF5F6D;
+    transition: 0.2s;
+  }
+
+  button[mat-icon-button]:hover {
+    transform: scale(1.1);
+    color: #d0355c;
+  }
+
+  mat-icon {
+    font-size: 20px;
+  }
+
+  mat-paginator {
+    margin-top: 20px;
+  }
+
+  .user-photo {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 1px solid #7F3FBF; /* couleur violette qui match ton thème */
+}
+
+  @media (max-width: 768px) {
     .search-bar {
-      padding: 10px 16px;
-      border-radius: 30px;
-      border: 1px solid #ccc;
-      outline: none;
-      font-size: 16px;
-      width: 300px;
-      background-color: #fff;
-      color: #1A1C3A;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-    }
-
-    .styled-table {
       width: 100%;
-      border-collapse: collapse;
-      color: #1A1C3A;
-    }
-
-    .styled-table thead {
-      background: linear-gradient(to right, #00AEEF, #B13D87, #FF5F6D);
-      color: white;
     }
 
     .styled-table th,
     .styled-table td {
-      padding: 12px 15px;
-      text-align: left;
-      border-bottom: 1px solid #ddd;
+      padding: 10px;
+      font-size: 14px;
     }
 
-    .styled-table tbody tr:hover {
-      background-color: #f9f9f9;
+    .header-utilisateur {
+      flex-direction: column;
+      align-items: stretch;
     }
+  }
 
-    button[mat-flat-button] {
-      background: linear-gradient(to right, #7F3FBF, #FF5F6D) !important;
-      color: white !important;
-      font-weight: bold;
-      border-radius: 30px;
-      padding: 10px 20px;
-      border: none;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-
-    button[mat-flat-button]:hover {
-      opacity: 0.9;
-    }
-
-    button[mat-icon-button] {
-      background: none;
-      border: none;
-      cursor: pointer;
-      color: #FF5F6D;
-    }
-
-    mat-icon {
-      font-size: 20px;
-    }
-
-    @media (max-width: 768px) {
-      .search-bar {
-        width: 100%;
-      }
-
-      .styled-table th,
-      .styled-table td {
-        padding: 10px;
-        font-size: 14px;
-      }
-
-      .header-utilisateur {
-        flex-direction: column;
-        align-items: stretch;
-      }
-    }
-  </style>
+</style>
 
 <body>
 
@@ -128,7 +153,8 @@
     <!-- Tableau -->
     <table class="styled-table">
       <thead>
-        <tr>
+        <tr> 
+          <th>Photo</th>
           <th>Nom</th>
           <th>Prénom</th>
           <th>Email</th>
@@ -140,6 +166,9 @@
       </thead>
       <tbody>
         <tr *ngFor="let user of utilisateurs">
+            <td>
+        <img src="assets/images/people/OIP.jpeg" alt="Photo utilisateur" class="user-photo" />
+      </td>
           <td>{{ user.nom }}</td>
           <td>{{ user.prenom }}</td>
           <td>{{ user.email }}</td>
@@ -152,7 +181,9 @@
 <button mat-icon-button matTooltip="Supprimer" (click)="supprimerUtilisateur(user.idUser)">
   <mat-icon>delete</mat-icon>
 </button>
-
+ <button mat-icon-button matTooltip="Détails" (click)="openDetailDialog(user)">
+    <mat-icon>info</mat-icon>
+  </button>
             <button mat-icon-button matTooltip="Modifier" (click)="openUpdateDialog(user)">
               <mat-icon>edit</mat-icon>
             </button>

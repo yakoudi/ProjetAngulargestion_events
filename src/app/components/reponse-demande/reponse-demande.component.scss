@@ -1,0 +1,107 @@
+
+  .section-title {
+    font-size: 24px;
+    color: #1A1C3A;
+    border-left: 6px solid #FF5F6D;
+    padding-left: 12px;
+    margin-bottom: 20px;
+    font-weight: 600;
+  }
+
+  .table-container {
+    overflow-x: auto;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+  }
+
+  .styled-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 15px;
+    color: #1A1C3A;
+  }
+
+  .styled-table thead {
+    background: linear-gradient(to right, #00AEEF, #B13D87, #FF5F6D);
+    color: white;
+  }
+
+  .styled-table th,
+  .styled-table td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #ddd;
+    text-align: left;
+    vertical-align: top;
+  }
+
+  .styled-table tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+
+  .styled-table tbody tr:hover {
+    background-color: #f1f7ff;
+  }
+
+  .comment-textarea {
+    width: 100%;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    padding: 8px 10px;
+    font-size: 14px;
+    resize: vertical;
+    transition: border-color 0.3s;
+  }
+
+  .comment-textarea:focus {
+    outline: none;
+    border-color: #FF5F6D;
+    box-shadow: 0 0 5px rgba(255, 95, 109, 0.3);
+  }
+
+
+  .icon-btn {
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    border-radius: 50%;
+    padding: 8px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    width: 36px;
+    height: 36px;
+  }
+
+  .icon-btn mat-icon {
+    font-size: 22px;
+    color: #666666;
+    transition: color 0.3s ease;
+  }
+
+  .icon-btn.validate:hover {
+    background-color: #d9f0dc; /* vert très clair */
+  }
+
+  .icon-btn.validate:hover mat-icon {
+    color: #4caf50; /* vert */
+    transform: scale(1.1);
+  }
+
+  .icon-btn.reject:hover {
+    background-color: #f9d6d5; /* rouge très clair */
+  }
+
+  .icon-btn.reject:hover mat-icon {
+    color: #f44336; /* rouge */
+    transform: scale(1.1);
+  }
+
+  .icon-btn:focus-visible {
+    outline: 2px solid #ff5f6d;
+    outline-offset: 2px;
+  }
+
+

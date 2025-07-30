@@ -1,63 +1,121 @@
-import { Component, OnInit } from '@angular/core';
-import { FormsModule, NgModel } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MatIconModule } from '@angular/material/icon';
+
 import { EvenementService } from 'src/app/services/evenement.service';
+import { ValidationRhDialogComponent } from '../validation-rh-dialog/validation-rh-dialog.component';
+import { EvenementDTO } from 'src/app/Models/EvenementDTO';
+import { DetailsValidationRhDialogComponent } from '../details-validation-rh-dialog/details-validation-rh-dialog.component';
 
 @Component({
   selector: 'app-reponse-demande',
-  imports: [FormsModule],
+  standalone: true,
+  imports: [
+    CommonModule,
+    FormsModule,
+    MatIconModule,
+    MatDialogModule,
+    MatButtonModule,
+  ],
   templateUrl: './reponse-demande.component.html',
-  styleUrl: './reponse-demande.component.scss'
+  styleUrls: ['./reponse-demande.component.scss']
 })
 export class ReponseDemandeComponent implements OnInit {
-  demandes: any[] = [];
-  commentaireRejet: string = '';
-  selectedId: number | null = null;
-  message: string = '';
 
-  constructor(private evenementService: EvenementService) {}
+  demandes: any[] = [];
+  commentaireMap: { [id: number]: string } = {};
+
+  @ViewChild('dialogMessage') dialogMessageTpl!: TemplateRef<any>;
+  dialogRef!: MatDialogRef<any>;
+
+  constructor(
+    private evenementService: EvenementService,
+    private dialog: MatDialog
+  ) {}
 
   ngOnInit(): void {
-    this.chargerDemandes();
+    this.loadDemandes();
   }
 
-  chargerDemandes(): void {
-    this.evenementService.getDemandesEnAttente().subscribe({
-      next: data => this.demandes = data,
-      error: err => console.error(err)
+  loadDemandes(): void {
+    this.evenementService.getDemandesEnAttente().subscribe(data => {
+      this.demandes = data;
     });
   }
 
   valider(id: number): void {
     this.evenementService.validerDemande(id).subscribe({
       next: () => {
-        this.message = '✅ Demande validée';
-        this.chargerDemandes();
+        this.loadDemandes();
       },
-      error: err => console.error(err)
+      error: err => {
+        console.error("Erreur validation", err);
+      }
     });
   }
 
-  rejeter(): void {
-    if (this.selectedId && this.commentaireRejet.trim() !== '') {
-      this.evenementService.rejeterDemande(this.selectedId, this.commentaireRejet).subscribe({
-        next: () => {
-          this.message = '❌ Demande rejetée avec commentaire';
-          this.commentaireRejet = '';
-          this.selectedId = null;
-          this.chargerDemandes();
-        },
-        error: err => console.error(err)
-      });
+  rejeter(idEvenement: number): void {
+    const commentaire = this.commentaireMap[idEvenement]?.trim() || '';
+
+    if (!commentaire) {
+      this.openDialog(); // Afficher le dialog Angular Material
+      return;
     }
+
+    this.evenementService.rejeterDemande(idEvenement, commentaire).subscribe({
+      next: () => {
+        this.loadDemandes();
+      },
+      error: error => {
+        console.error("Erreur lors du rejet", error);
+      }
+    });
   }
 
-  ouvrirRejet(id: number): void {
-    this.selectedId = id;
-    this.commentaireRejet = '';
+  openDialog() {
+    this.dialogRef = this.dialog.open(this.dialogMessageTpl, { width: '300px' });
   }
 
-  annulerRejet(): void {
-    this.selectedId = null;
-    this.commentaireRejet = '';
+  closeDialog() {
+    this.dialogRef.close();
   }
+
+  // 🔁 Historique : En attente / Validés / Rejetés
+  chargerDemandesEnAttente() {
+    this.evenementService.getDemandesEnAttente().subscribe(data => {
+      this.demandes = data;
+    });
+  }
+
+  chargerDemandesValidees() {
+    this.evenementService.getEvenementsValides().subscribe(data => {
+      this.demandes = data;
+    });
+  }
+
+  chargerDemandesRejetees() {
+    this.evenementService.getEvenementsRejetes().subscribe(data => {
+      this.demandes = data;
+    });
+  }
+ouvrirDialogValidation(demande: EvenementDTO) {
+  const dialogRef = this.dialog.open(ValidationRhDialogComponent, {
+    width: '600px',
+    data: demande
+  });
+
+  dialogRef.afterClosed().subscribe(result => {
+    if (result) {
+      this.evenementService.validerDemandeAvecInfos(result.idEvenement, result)
+        .subscribe(() => {
+          this.chargerDemandesEnAttente();
+        });
+    }
+  });
+}
+
+
 }

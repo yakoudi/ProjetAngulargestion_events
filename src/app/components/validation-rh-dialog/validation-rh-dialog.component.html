@@ -1,0 +1,33 @@
+<h2 mat-dialog-title class="dialog-title">Valider l'événement</h2>
+
+<form [formGroup]="form" (ngSubmit)="submit()" class="dialog-container">
+  <mat-form-field appearance="fill" class="full-width">
+    <mat-label>Lieu</mat-label>
+    <input matInput formControlName="lieu">
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" class="full-width">
+    <mat-label>Date début</mat-label>
+    <input matInput type="date" formControlName="dateDebut">
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" class="full-width">
+    <mat-label>Date fin</mat-label>
+    <input matInput type="date" formControlName="dateFin">
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" class="full-width">
+    <mat-label>Budget estimé (TND)</mat-label>
+    <input matInput type="number" formControlName="cout">
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" class="full-width">
+    <mat-label>Commentaire RH</mat-label>
+    <textarea matInput rows="3" formControlName="commentaireRh"></textarea>
+  </mat-form-field>
+
+  <div class="dialog-actions">
+    <button mat-flat-button color="primary" type="submit">✅ Valider</button>
+    <button mat-stroked-button color="warn" mat-dialog-close>❌ Annuler</button>
+  </div>
+</form>

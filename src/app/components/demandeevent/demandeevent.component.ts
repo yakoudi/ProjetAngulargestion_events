@@ -1,8 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
-import { MatIcon, MatIconModule } from '@angular/material/icon';
-import { MatTableModule } from '@angular/material/table';
+import { MatIconModule } from '@angular/material/icon';
 import { MaterialModule } from '../../material.module';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
@@ -15,46 +14,38 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { EvenementService } from 'src/app/services/evenement.service';
 import { DialogModifierEvenementComponent } from '../dialog-modifier-evenement/dialog-modifier-evenement.component';
 import { DemandeComponent } from '../demande/demande.component';
+import { CommentaireDialogComponent } from '../commentaire-dialog/commentaire-dialog.component';
+import { DetailsValidationRhDialogComponent } from '../details-validation-rh-dialog/details-validation-rh-dialog.component';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-demandeevent',
-  imports: [  
-      CommonModule,
-      MatCardModule,
-      MaterialModule,
-      MatIconModule,
-      MatMenuModule,
-      MatButtonModule,
-     ReactiveFormsModule,
-    MatDialogModule,
+  imports: [
+    CommonModule,
+    MatCardModule,
+    MaterialModule,
     MatIconModule,
+    MatMenuModule,
+    MatButtonModule,
+    ReactiveFormsModule,
+    MatDialogModule,
     MatInputModule,
     MatFormFieldModule,
-    DemandeeventComponent,
     MatDatepickerModule,
     MatNativeDateModule,
-    MatButtonModule, ],
+  ],
   templateUrl: './demandeevent.component.html',
-  styleUrl: './demandeevent.component.scss'
+  styleUrls: ['./demandeevent.component.scss']  // corrigé ici
 })
-
-
-
-
-export class DemandeeventComponent  implements OnInit {
+export class DemandeeventComponent implements OnInit {
   isDialogOpen = false;
   evenementForm!: FormGroup;
-  modifierForm!: FormGroup;
-  eventSelectionne: any = null;
   evenements: any[] = [];
-  currentEventId: number | null = null; // Pour stocker l'ID de l'événement en cours de modification
-  dialogRef: any; // Pour stocker la référence du dialog
 
   constructor(
     private evenementService: EvenementService,
     private fb: FormBuilder,
-    public  dialog: MatDialog
-    
+    public dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -76,7 +67,7 @@ export class DemandeeventComponent  implements OnInit {
     const formValue = this.evenementForm.value;
 
     const evenement = {
-      idEvenement:formValue.idEvenement,
+      idEvenement: formValue.idEvenement,
       titre: formValue.titre,
       description: formValue.description,
       dateDebut: new Date(formValue.dateDebut).toISOString(),
@@ -99,20 +90,20 @@ export class DemandeeventComponent  implements OnInit {
   }
 
   loadEvenements(): void {
-  this.evenementService.getMesDemandes().subscribe(data => {
-    console.log('Evenements chargés:', data); // <--- LOG important
-    
-    if (Array.isArray(data)) {
-      this.evenements = data;
-    } else {
-      this.evenements = [];
-      console.warn('Données reçues incorrectes:', data);
-    }
-  }, err => {
-    this.evenements = [];
-    console.error('Erreur chargement événements', err);
-  });
-}
+    this.evenementService.getMesDemandes().subscribe({
+      next: (data) => {
+        console.log('Evenements chargés:', data);
+        this.evenements = Array.isArray(data) ? data : [];
+        if (!Array.isArray(data)) {
+          console.warn('Données reçues incorrectes:', data);
+        }
+      },
+      error: (err: any) => {
+        this.evenements = [];
+        console.error('Erreur chargement événements', err);
+      }
+    });
+  }
 
   openAjoutDialog(): void {
     this.isDialogOpen = true;
@@ -127,30 +118,84 @@ export class DemandeeventComponent  implements OnInit {
     });
   }
 
-  
 ouvrirDialogModification(event: any): void {
-  console.log('Event reçu pour modification:', event); // 🔍 ici, vérifie si event.id est bien défini
+  console.log('Event reçu pour modification:', event);
 
   const dialogRef = this.dialog.open(DialogModifierEvenementComponent, {
     width: '500px',
-    data: event  // ✅ PAS { evenement: event }, juste event
+    data: event
   });
 
   dialogRef.afterClosed().subscribe(result => {
-    if (result) {
+    if (result === 'updated') {
       this.loadEvenements();
+
+      // Afficher la popup SweetAlert2 ici
+      Swal.fire({
+        icon: 'success',
+        title: 'Modifié !',
+        text: '✅ Événement modifié avec succès !',
+        timer: 2000,
+        showConfirmButton: false
+      });
     }
   });
 }
 
-   
+
+  updateEventStatus(id: number, status: string, commentaire: string) {
+    const index = this.evenements.findIndex(e => e.idEvenement === id);
+    if (index !== -1) {
+      this.evenements[index].status = status;
+      this.evenements[index].commentaireRh = commentaire;
+    }
+  }
+
+  ouvrirDialogCommentaire(commentaire: string): void {
+    this.dialog.open(CommentaireDialogComponent, {
+      width: '300px',
+      data: { commentaire }
+    });
+  }
+
+  ouvrirDialogDetailValidation(demande: any) {
+    this.dialog.open(DetailsValidationRhDialogComponent, {
+      width: '500px',
+      data: demande
+    });
+  }
+
+  supprimerEvenement(id: number): void {
+    Swal.fire({
+      title: 'Êtes-vous sûr ?',
+      text: "Cette action est irréversible !",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Oui, supprimer !',
+      cancelButtonText: 'Annuler'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.evenementService.supprimerEvenement(id).subscribe({
+          next: () => {
+            this.loadEvenements();
+            Swal.fire(
+              'Supprimé !',
+              'L\'événement a été supprimé avec succès.',
+              'success'
+            );
+          },
+          error: (err: any) => {
+            console.error('Erreur suppression', err);
+            Swal.fire(
+              'Erreur !',
+              'La suppression a échoué.',
+              'error'
+            );
+          }
+        });
+      }
+    });
+  }
 }
-
-
-
-  
- 
-
-
-
-
