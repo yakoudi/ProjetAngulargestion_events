@@ -1,75 +1,59 @@
-<style>
-  .notif-btn {
-    background-color: rgba(255, 255, 255, 0.1);
-    border-radius: 50%;
-  }
 
-  .notif-btn mat-icon {
-    color: white;
-  }
-
-  .user-actions {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    margin-right: 20px;
-  }
-
-  .avatar {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-  }
-
-  .profile-menu {
-    position: absolute;
-    right: 20px;
-    top: 70px;
-    background: white;
-    border: 1px solid #ddd;
-    border-radius: 6px;
-    padding: 10px;
-    z-index: 1000;
-  }
-
-  .profile-menu a {
-    display: block;
-    padding: 5px 10px;
-    color: #333;
-    text-decoration: none;
-  }
-
-  .profile-menu a:hover {
-    background: #f0f0f0;
-  }
-</style>
-
+<!-- dashboard-layout.component.html -->
 <div class="dashboard-layout">
+
   <!-- NAVBAR -->
   <header class="navbar">
     <img src="assets/images/logos/OIP-removebg-preview.png" class="imggg" />
 
     <div class="user-actions">
       <!-- Icône Notifications -->
-      <button mat-icon-button matBadge="{{ invitations?.length }}" matBadgeColor="warn"
-              (click)="ouvrirNotifications()" class="notif-btn" aria-label="Ouvrir les notifications">
-        <mat-icon>notifications</mat-icon>
+      <button mat-icon-button 
+              matBadge="{{ invitations?.length }}" 
+              matBadgeColor="warn"
+              (click)="ouvrirNotifications()" 
+              class="notif-btn" 
+              aria-label="Ouvrir les notifications">
+        <mat-icon >notifications</mat-icon>
       </button>
 
       <!-- Avatar utilisateur -->
-    <img [src]="photoUrl"
-     class="avatar"
-     (click)="toggleProfileMenu = !toggleProfileMenu"
-     style="cursor: pointer;" />
+   <div class="avatar-wrapper" (click)="toggleProfileMenu = !toggleProfileMenu">
+  <img src="assets/images/people/OIP.jpeg" class="avatar-img">
+  <span class="user-name-short">{{ userFullName }}</span></div>
+</div>
+
+  </header>
+
+  <!-- Menu Profil -->
+  <div class="profile-menu" *ngIf="toggleProfileMenu">
+    <div class="profile-header">
+      <img src="assets/images/people/OIP.jpeg"  class="profile-avatar" />
+      <div class="profile-text">
+        <div class="profile-name">{{ userFullName }}</div>
+        <div class="profile-email">{{ userEmail }}</div>
+      </div>
     </div>
 
-    <!-- Menu Profil -->
-    <div class="profile-menu" *ngIf="toggleProfileMenu">
-      <a routerLink="dashboard/superieur/profil">Modifier profil</a>
-      <a routerLink="/dashboard/RH/changer-mot-de-passe">Changer mot de passe</a>
-      <a (click)="logout()" style="cursor: pointer;">Quitter</a>
-    </div>
-  </header>
+    <nav class="profile-links">
+      <a routerLink="/dashboard/superieur/profil">
+        <mat-icon>settings</mat-icon>
+        <span>Modifier Profil</span>
+      </a>
+      <a routerLink="/dashboard/RH/changer-mot-de-passe">
+        <mat-icon>lock</mat-icon>
+        <span>Changer Mot de passe</span>
+      </a>
+      <a (click)="logout()">
+        <mat-icon class="icon-quittez">logout</mat-icon>
+        <span>Quittez</span>
+      </a>
+    </nav>
+  </div>
+
+
+
+
 
 <mat-sidenav-container class="sidenav-container">
 

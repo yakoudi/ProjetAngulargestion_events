@@ -27,6 +27,7 @@ import { InvitationserviceService } from 'src/app/services/invitationservice.ser
     MatCardModule,
     MatCheckboxModule
   ],
+  schemas:[],
   templateUrl: './envoyer-invitation.component.html',
   styleUrls: ['./envoyer-invitation.component.scss']
 })

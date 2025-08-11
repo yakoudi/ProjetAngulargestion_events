@@ -4,7 +4,7 @@ import { DashbordSuperieurHeararchiqueComponent } from "./components/dashbord-su
 
 @Component({
     selector: 'app-root',
-    imports: [RouterOutlet, DashbordSuperieurHeararchiqueComponent],
+    imports: [RouterOutlet, DashbordSuperieurHeararchiqueComponent ],
     templateUrl: './app.component.html'
 })
 export class AppComponent {

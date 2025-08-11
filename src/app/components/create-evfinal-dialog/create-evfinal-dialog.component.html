@@ -1,0 +1,446 @@
+<mat-card class="form-container">
+  <mat-card-header>
+    <mat-card-title>
+      <h2 class="form-title">📅 Créer un événement</h2>
+    </mat-card-title>
+  </mat-card-header>
+
+  <div class="scrollable-form">
+    <form [formGroup]="evenementForm" (ngSubmit)="onSubmit()" class="form-content">
+
+      <!-- Titre -->
+      <div class="form-row">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>🏷️ Titre*</mat-label>
+          <input matInput formControlName="titre" required />
+          <mat-error *ngIf="evenementForm.get('titre')?.hasError('required')">Le titre est requis</mat-error>
+        </mat-form-field>
+      </div>
+
+      <!-- Image événement -->
+      <div class="form-row">
+        <label for="imageEvenement" class="custom-label">
+          <span class="icon">🖼️</span> Image de l’événement
+        </label><br />
+        <input
+          type="file"
+          id="imageEvenement"
+          (change)="onImageEvenementSelected($event)"
+          accept="image/*"
+          aria-label="Image de l'événement"
+        />
+      </div>
+
+      <!-- Description -->
+      <div class="form-row">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>🖋️ Description</mat-label>
+          <textarea matInput formControlName="description" rows="4"></textarea>
+        </mat-form-field>
+      </div>
+
+      <!-- Date / Lieu / Coût -->
+      <div class="form-row">
+        <mat-form-field appearance="outline" class="half-width">
+          <mat-label>📅 Date*</mat-label>
+          <input matInput [matDatepicker]="picker" formControlName="dateEvenement" required />
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+          <mat-error *ngIf="evenementForm.get('dateEvenement')?.hasError('required')">La date est requise</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="half-width">
+          <mat-label>📍 Lieu</mat-label>
+          <input matInput formControlName="lieuEvenement" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="half-width">
+          <mat-label>💰 Coût*</mat-label>
+          <input matInput type="number" formControlName="cout" required min="0" />
+          <mat-error *ngIf="evenementForm.get('cout')?.hasError('required')">Le coût est requis</mat-error>
+          <mat-error *ngIf="evenementForm.get('cout')?.hasError('min')">Le coût doit être positif</mat-error>
+        </mat-form-field>
+      </div>
+
+     <!-- Participants -->
+      <section class="form-section">
+        <h3><span class="icon">👥</span> Participants</h3>
+        <div formArrayName="participants" class="participants-list">
+          <div *ngFor="let participant of participantsArray.controls; let i = index" [formGroupName]="i" class="participant-row">
+
+            <mat-form-field appearance="outline" class="participant-select">
+              <mat-label>Participant*</mat-label>
+              <mat-select formControlName="idUser" required (selectionChange)="onParticipantSelected(i)">
+                <mat-option *ngFor="let user of utilisateurs" [value]="user.idUser">
+                  {{ user.email }}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="participant.get('idUser')?.hasError('required')">Veuillez sélectionner un participant</mat-error>
+            </mat-form-field>
+            <button mat-icon-button color="warn" type="button" (click)="removeParticipant(i)" aria-label="Supprimer participant" class="remove-btn">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+        </div>
+
+        <button mat-stroked-button color="primary" type="button" (click)="addParticipant()" class="add-participant-btn">
+          <span class="icon">➕</span> Ajouter un participant
+        </button>
+      </section>
+
+      <!-- Fournisseurs -->
+      <section class="form-section">
+        <h3><span class="icon">🏢</span> Fournisseurs</h3>
+        <div formArrayName="fournisseurs">
+          <div
+            *ngFor="let fournisseur of fournisseursArray.controls; let i = index"
+            [formGroupName]="i"
+            class="form-row fournisseur-row"
+          >
+            <mat-form-field appearance="outline" class="half-width">
+              <mat-label>🏷️ Nom</mat-label>
+              <input matInput formControlName="nom" />
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="half-width">
+              <mat-label>📧 Email</mat-label>
+              <input matInput formControlName="email" type="email" />
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="half-width">
+              <mat-label>📞 Numéro</mat-label>
+              <input matInput formControlName="numero" />
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="half-width">
+              <mat-label>🏷️ Type</mat-label>
+              <mat-select formControlName="type">
+                <mat-option value="SECURITE">Sécurité</mat-option>
+                <mat-option value="NETTOYAGE">Nettoyage</mat-option>
+                <mat-option value="MAINTENANCE">Maintenance</mat-option>
+                <mat-option value="TEAMBUILDING">TeamBuilding</mat-option>
+                <mat-option value="IMPRIMERIE">Imprimerie</mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <!-- Upload document -->
+            <div class="upload-enhanced">
+              <label class="custom-label" [for]="'document-'+i">
+                <span class="icon">📎</span> Joindre un document
+              </label>
+
+              <div class="upload-wrapper">
+                <button
+                  type="button"
+                  mat-stroked-button
+                  color="primary"
+                  (click)="triggerFileInput(i)"
+                  aria-label="Parcourir les fichiers fournisseur"
+                >
+                  <mat-icon>attach_file</mat-icon> Parcourir
+                </button>
+
+                <span class="file-name" *ngIf="fileNames[i]">
+                  📄 {{ fileNames[i] }}
+                  <a
+                    *ngIf="fileUrls[i]"
+                    [href]="fileUrls[i]"
+                    target="_blank"
+                    rel="noopener"
+                    style="margin-left: 8px; color: #7F3FBF; text-decoration: underline;"
+                    >Voir le document</a
+                  >
+                </span>
+
+                <input
+                  type="file"
+                  [id]="'document-'+i"
+                  #fileInput
+                  (change)="onFileChange($event, i)"
+                  hidden
+                  aria-label="Choisir un document fournisseur"
+                />
+              </div>
+            </div>
+
+            <button
+              mat-icon-button
+              color="warn"
+              type="button"
+              (click)="removeFournisseur(i)"
+              aria-label="Supprimer fournisseur"
+            >
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+        </div>
+
+        <button mat-stroked-button color="accent" type="button" (click)="addFournisseur()">
+          <span class="icon">➕</span> Ajouter un fournisseur
+        </button>
+      </section>
+
+      <!-- Actions -->
+      <div class="form-actions">
+        <button mat-flat-button color="primary" type="submit" [disabled]="evenementForm.invalid">
+          <span class="icon">✔️</span> Créer
+        </button>
+        <button mat-stroked-button color="warn" type="button" (click)="onCancel()">
+          <span class="icon">❌</span> Annuler
+        </button>
+      </div>
+    </form>
+  </div>
+</mat-card>
+
+
+<style>
+
+  .file-name {
+  font-size: 14px;
+  color: #555;
+  font-style: italic;
+  max-width: 240px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+ .custom-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 600;
+  font-size: 14px;
+  color: #4a4a6a;
+  margin-bottom: 6px;
+}
+
+.icon {
+  font-size: 18px;
+  line-height: 1;
+}
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: #f5f7fa;
+  color: #1A1C3A;
+}
+
+/* Conteneur principal */
+.page-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+}
+
+/* Carte / boîte de dialogue */
+.content-card, .dialog-container, .form-container {
+  background-color: white;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  padding: 40px 30px;
+  width: 100%;
+  max-width: 900px;
+  animation: fadeInUp 0.4s ease;
+}
+
+/* Animation à l’apparition */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Titre */
+h2.form-title, h2.dialog-title {
+  margin-bottom: 30px;
+  font-weight: 700;
+  font-size: 28px;
+  color: #7F3FBF;
+  text-align: center;
+}
+
+/* Formulaire */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+
+.upload-enhanced {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.upload-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.upload-wrapper button {
+  min-width: 140px;
+  height: 40px;
+}
+
+.file-name {
+  font-size: 14px;
+  font-style: italic;
+  color: #4a4a6a;
+  max-width: 250px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+/* Ligne avec plusieurs champs côte à côte */
+.form-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+.form-row > * {
+  flex: 1 1 280px;
+}
+
+/* Scroll sur formulaire */
+.scrollable-form {
+  max-height: 80vh;
+  overflow-y: auto;
+  padding-right: 8px;
+  scrollbar-width: thin;
+}
+.scrollable-form::-webkit-scrollbar {
+  width: 6px;
+}
+.scrollable-form::-webkit-scrollbar-thumb {
+  background-color: #ccc;
+  border-radius: 10px;
+}
+
+/* Label */
+label {
+  font-weight: 600;
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  color: #4a4a6a;
+}
+
+/* Inputs */
+input[type="text"],
+input[type="date"],
+input[type="number"],
+input[type="file"],
+textarea {
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 1.8px solid #ccc;
+  font-size: 16px;
+  transition: border-color 0.3s;
+  font-family: inherit;
+  resize: vertical;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Focus input */
+input[type="text"]:focus,
+input[type="date"]:focus,
+input[type="number"]:focus,
+textarea:focus {
+  border-color: #7F3FBF;
+  outline: none;
+  box-shadow: 0 0 8px rgba(127, 63, 191, 0.3);
+}
+
+/* Input fichier plus propre */
+input[type="file"] {
+  border: 1px dashed #ccc;
+  padding: 8px;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 8px;
+}
+
+/* Erreurs */
+.form-error {
+  margin-top: 4px;
+  font-size: 13px;
+  color: #ff4d6d;
+  font-weight: 600;
+}
+
+/* Section participants / fournisseurs */
+.form-section h3 {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 10px;
+  border-left: 4px solid #7F3FBF;
+  padding-left: 10px;
+  color: #333;
+}
+
+/* Actions bouton */
+.form-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 30px;
+}
+
+/* Boutons */
+button.cancel-btn,
+button.confirm-btn {
+  padding: 12px 28px;
+  border-radius: 30px;
+  border: none;
+  font-weight: 700;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s, box-shadow 0.3s;
+  font-family: inherit;
+}
+
+button.cancel-btn {
+  background-color: #ccc;
+  color: #444;
+}
+button.cancel-btn:hover {
+  background-color: #bbb;
+}
+
+button.confirm-btn {
+  background: linear-gradient(90deg, #7F3FBF, #FF5F6D);
+  color: white;
+  box-shadow: 0 4px 12px rgba(255, 95, 109, 0.6);
+}
+button.confirm-btn:hover:not(:disabled) {
+  opacity: 0.9;
+  box-shadow: 0 6px 20px rgba(255, 95, 109, 0.8);
+}
+button.confirm-btn:disabled {
+  background-color: #e0ccec;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .form-row {
+    flex-direction: column;
+  }
+}
+  </style>

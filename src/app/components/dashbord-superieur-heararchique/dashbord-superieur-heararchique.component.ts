@@ -32,6 +32,8 @@ export class DashbordSuperieurHeararchiqueComponent implements OnInit{
      toggleProfileMenu = false;
      toggleNotif = false;
      invitations : any[] = [];
+       userFullName: string = '';
+  userEmail: string = '';
      photoUrl: string = 'assets/images/default-avatar.jpg'; // image par défaut
    constructor(private router: Router ,private dialog: MatDialog,private utilisateurService: UserService) {}
  
@@ -41,12 +43,18 @@ export class DashbordSuperieurHeararchiqueComponent implements OnInit{
    }
     
 
-   ngOnInit(): void {
-    this.utilisateurService.getCurrentUser().subscribe(user => {
-      if (user.photo) {
-      }
-    });
-  }
+ ngOnInit(): void {
+  this.utilisateurService.getCurrentUser().subscribe({
+    next: (user) => {
+      this.userFullName = `${user.prenom} ${user.nom}`;
+      this.userEmail = user.email;
+      this.photoUrl = user.photoUrl ? `http://localhost:8083/uploads/${user.photoUrl}` : 'assets/images/avatar-doctor.png';
+    },
+    error: (err) => {
+      console.error('Erreur récupération utilisateur :', err);
+    }
+  });
+}
 
  
 

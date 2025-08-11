@@ -159,6 +159,14 @@
       0%, 100% { transform: translateY(0); }
       50% { transform: translateY(-10px); }
     }
+
+
+    .blur-background {
+  filter: blur(6px);
+  pointer-events: none; /* désactive les clics sur le fond */
+  user-select: none;    /* désactive sélection de texte */
+  transition: filter 0.3s ease;
+}
   </style>
 </head>
 <body>
@@ -171,7 +179,7 @@
   </div>
 
   <!-- Formulaire principal -->
-  <div class="Container">
+  <div class="Container" id="main-content">
     <mat-card>
       <mat-card-content>
 
@@ -199,7 +207,7 @@
 
           <div class="d-flex">
             <mat-checkbox color="primary">Se souvenir</mat-checkbox>
-            <a [routerLink]="['/']" class="text-primary m-l-auto">Mot de passe oublié ?</a>
+     <a class="text-primary m-l-auto" (click)="openForgotPasswordDialog()">Mot de passe oublié ?</a>
           </div>
 
           <button mat-flat-button color="primary" class="w-100">Se Connecter</button>

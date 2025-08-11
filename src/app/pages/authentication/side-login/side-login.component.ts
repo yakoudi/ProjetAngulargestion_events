@@ -8,6 +8,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { AuthServiceService } from 'src/app/services/auth-service.service';
 import { CommonModule } from '@angular/common';
 
+import { MatDialog } from '@angular/material/dialog';
+import { ResetPasswordComponent } from 'src/app/components/reset-password/reset-password.component';
 @Component({
   selector: 'app-side-login',
   imports: [RouterModule, MaterialModule, FormsModule, ReactiveFormsModule ,CommonModule],
@@ -19,7 +21,7 @@ export class AppSideLoginComponent {
   errorMessage = '';
   successMessage = '';
 
-  constructor(private authService: AuthServiceService, private router: Router) {}
+  constructor(private authService: AuthServiceService, private router: Router,  private dialog: MatDialog) {}
 
   onSubmit(): void {
    this.authService.login({ email: this.email, password: this.password }).subscribe({
@@ -47,4 +49,28 @@ export class AppSideLoginComponent {
     this.successMessage = '';
   }
 });
-  }}
+
+  }
+  
+
+openForgotPasswordDialog() {
+  const mainContent = document.getElementById('main-content');
+  if (mainContent) {
+    mainContent.classList.add('blur-background');
+  }
+
+  const dialogRef = this.dialog.open(ResetPasswordComponent, {
+    width: '450px',
+    disableClose: true,
+  });
+
+  dialogRef.afterClosed().subscribe(() => {
+    if (mainContent) {
+      mainContent.classList.remove('blur-background');
+    }
+  });
+}
+
+
+  
+}

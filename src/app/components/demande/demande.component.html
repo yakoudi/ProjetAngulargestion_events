@@ -1,10 +1,5 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-  <meta charset="UTF-8" />
-  <title>Demander un événement</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <style>
+<style>
+  
     * {
       box-sizing: border-box;
     }
@@ -25,6 +20,7 @@
       align-items: center;
       padding:0;
     }
+
 
     .content-card, .dialog-container {
       background-color: white;
@@ -145,7 +141,7 @@ input#cout {
     }
 
     button.confirm-btn {
-      background: linear-gradient(90deg, #7F3FBF, #FF5F6D);
+      background: linear-gradient(90deg, #7F3FBF, #7F3FBF);
       color: white;
       box-shadow: 0 4px 12px rgba(255, 95, 109, 0.6);
     }
@@ -160,6 +156,30 @@ input#cout {
       cursor: not-allowed;
       box-shadow: none;
     }
+select {
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 1.8px solid #ccc;
+  font-size: 16px;
+  font-family: inherit;
+  background-color: white;
+  color: #1A1C3A;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url("data:image/svg+xml;utf8,<svg fill='%237F3FBF' height='20' viewBox='0 0 24 24' width='20' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 20px;
+  cursor: pointer;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+select:focus {
+  border-color: #7F3FBF;
+  outline: none;
+  box-shadow: 0 0 8px rgba(127, 63, 191, 0.3);
+}
 
     /* Responsive */
     @media (max-width: 768px) {
@@ -167,8 +187,8 @@ input#cout {
         flex-direction: column;
       }
     }
-  </style>
-</head>
+
+</style>
 <body>
   <div class="page-container">
     <div class="dialog-container">
@@ -180,7 +200,6 @@ input#cout {
       </div>
 
       <form class="dialog-form" [formGroup]="evenementForm" (ngSubmit)="onSubmit()">
-        
         <!-- Ligne Titre + Catégorie -->
         <div class="form-row">
           <div>
@@ -193,7 +212,9 @@ input#cout {
 
           <div>
             <label for="categorieEvenement"><span class="icon">🏷️</span> Catégorie</label>
-            <input id="categorieEvenement" type="text" formControlName="categorieEvenement" />
+            <select id="categorieEvenement" formControlName="categorieEvenement">
+              <option *ngFor="let cat of categories" [value]="cat">{{ formatCategorie(cat) }}</option>
+            </select>
           </div>
         </div>
 
@@ -244,6 +265,7 @@ input#cout {
           <input id="cout" type="number" formControlName="cout" />
         </div>
 
+        <!-- Actions -->
         <div class="dialog-actions">
           <button type="button" class="cancel-btn" (click)="onCancel()">Annuler</button>
           <button type="submit" class="confirm-btn" [disabled]="evenementForm.invalid">Envoyer la demande</button>
@@ -252,4 +274,3 @@ input#cout {
     </div>
   </div>
 </body>
-</html>

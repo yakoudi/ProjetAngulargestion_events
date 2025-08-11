@@ -11,10 +11,17 @@ export class UserService {
 
   constructor(private http: HttpClient, private authService: AuthServiceService) {}
 
-  private getAuthHeaders() {
-    const token = this.authService.getToken();
-    return token ? { headers: new HttpHeaders({ Authorization: `Bearer ${token}` }) } : {};
+private getAuthHeaders() {
+  const token = this.authService.getToken();
+  let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+
+  if (token) {
+    headers = headers.set('Authorization', `Bearer ${token}`);
   }
+
+  return { headers };
+}
+
 
   add(user: any): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/ajouter`, user, this.getAuthHeaders());
@@ -44,7 +51,7 @@ uploadPhoto(id: number, formData: FormData): Observable<string> {
     formData,
     {
       ...this.getAuthHeaders(),
-      responseType: 'text' // 👈 Ici on spécifie bien que la réponse est du texte brut
+      responseType: 'text'
     } as {
       headers?: HttpHeaders;
       responseType: 'text';
@@ -57,4 +64,6 @@ getUserPhoto(filename: string): string {
   }
   return `http://localhost:8083/api/utilisateurs/photo/${filename}`;
 }
+
+
 }

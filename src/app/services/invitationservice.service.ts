@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { AuthServiceService } from './auth-service.service';
+import { TauxParticipationParEvenement } from '../Models/TauxParticipationParEvenement';
 
 @Injectable({
   providedIn: 'root'
@@ -67,5 +68,10 @@ export class InvitationserviceService {
   // ✅ Récupérer les invitations acceptées
   getInvitationsAcceptees(): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/invitationsAcceptees`, this.getAuthHeaders());
+  }
+
+  
+  getTauxParticipation(): Observable<TauxParticipationParEvenement[]> {
+    return this.http.get<TauxParticipationParEvenement[]>(`${this.apiUrl}/statistiques/taux-participation`, this.getAuthHeaders());
   }
 }

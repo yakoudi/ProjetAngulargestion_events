@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
@@ -12,6 +12,7 @@ import { ModifieruserComponent } from '../modifieruser/modifieruser.component';
 import { DetailUtilisateurDialogComponent } from '../detail-utilisateur-dialog/detail-utilisateur-dialog.component';
 import { UserService } from 'src/app/services/user.service';
 import Swal from 'sweetalert2';
+import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-listeuser',
@@ -25,7 +26,8 @@ import Swal from 'sweetalert2';
     MatButtonModule
   ],
   templateUrl: './listeuser.component.html',
-  styleUrls: ['./listeuser.component.scss']
+  styleUrls: ['./listeuser.component.scss'],
+   
 })
 export class ListeuserComponent implements OnInit {
   utilisateurs: any[] = [];
@@ -108,4 +110,6 @@ export class ListeuserComponent implements OnInit {
       }
     });
   }
+
+
 }

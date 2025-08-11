@@ -1,0 +1,93 @@
+<div class="page-container">
+  <div class="content-card">
+
+    <!-- 🔍 Barre de recherche et bouton de création -->
+    <div class="header-utilisateur">
+      <input
+        type="text"
+        class="search-bar"
+        placeholder="Rechercher un événement..."
+        [(ngModel)]="searchText"
+      />
+
+      <button mat-flat-button (click)="openAjoutDialog()" class="dropdown-button">
+        Créer un événement
+        <span [class.arrow-up]="isDialogOpen" [class.arrow-down]="!isDialogOpen"></span>
+      </button>
+    </div>
+
+    <!-- 📋 Tableau des événements -->
+    <table class="styled-table" *ngIf="evenements.length > 0; else aucunEvenement">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Image</th>
+          <th>Titre</th>
+          <th>Description</th>
+          <th>Date</th>
+          <th>Lieu</th>
+          <th>Coût</th>
+          <th>Fournisseurs</th>
+          <th>Participants</th>
+          <th>Actions</th>
+
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let event of evenements ">
+          <td>{{ event.idEvenement }}</td>
+          <td>
+      <img
+    *ngIf="event.imageEvenement; else noImg"
+    [src]="'http://localhost:8083/uploads/' + event.imageEvenement"
+    alt="image"
+    width="60"
+    height="60"
+     />
+     <ng-template #noImg>-</ng-template>
+     </td>
+          <td>{{ event.titre }}</td>
+          <td>{{ event.description }}</td>
+          <td>{{ event.dateEvenement }}</td>
+          <td>{{ event.lieuEvenement }}</td>
+          <td>{{ event.cout }} TND</td>
+          <td>
+  <ul *ngIf="event.fournisseurs?.length > 0; else noF">
+    <li *ngFor="let f of event.fournisseurs">
+      {{ f.nom }} ({{ f.type }})
+      <ul *ngIf="f.documents?.length > 0">
+<li *ngFor="let doc of f.documents">
+          📎 Document : {{ doc.nomFichier }}
+</li>      
+</ul>
+    </li>
+  </ul>
+  <ng-template #noF>-</ng-template>
+</td>
+          <td>
+            <ul *ngIf="event.participants?.length > 0; else noP">
+              <li *ngFor="let p of event.participants">{{ p.nom }}</li>
+            </ul>
+            <ng-template #noP>-</ng-template>
+          </td>
+          <td>
+            <button mat-icon-button  (click)="openModifDialog(event)">
+              <mat-icon>edit</mat-icon>
+            </button>
+              <button mat-icon-button (click)="openDetailsDialog(event)">
+    <mat-icon>visibility</mat-icon>
+  </button>
+            <button mat-icon-button >
+              <mat-icon>delete</mat-icon>
+            </button>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- 🛑 Aucun événement -->
+    <ng-template #aucunEvenement>
+      <p class="no-event-text">Aucun événement trouvé.</p>
+    </ng-template>
+
+  </div>
+</div>

@@ -2,49 +2,65 @@
 
 <mat-dialog-content [formGroup]="form" class="dialog-form">
 
-  <mat-form-field appearance="outline" class="w-100">
-    <mat-label>Nom</mat-label>
-    <input matInput formControlName="nom">
-    <mat-error *ngIf="form.get('nom')?.hasError('required')">
-      Le nom est obligatoire.
-    </mat-error>
-  </mat-form-field>
+  <div class="row">
+    <mat-form-field appearance="outline" class="w-50">
+      <mat-label>Nom</mat-label>
+      <input matInput formControlName="nom" />
+      <mat-error *ngIf="form.get('nom')?.hasError('required')">
+        Le nom est obligatoire.
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="w-50">
+      <mat-label>Prénom</mat-label>
+      <input matInput formControlName="prenom" />
+      <mat-error *ngIf="form.get('prenom')?.hasError('required')">
+        Le prénom est obligatoire.
+      </mat-error>
+    </mat-form-field>
+  </div>
+
+ 
+   <mat-form-field appearance="outline" class="w-100">
+  <mat-label>📧 Email</mat-label>
+  <input matInput formControlName="email" type="email" />
+  <mat-error *ngIf="form.get('email')?.hasError('required')">
+    L'email est obligatoire.
+  </mat-error>
+  <mat-error *ngIf="form.get('email')?.hasError('email')">
+    Format d'email invalide.
+  </mat-error>
+<mat-error *ngIf="form.get('email')?.hasError('emailDomainInvalid')">
+  L'email doit se terminer par &#64;tessi.fr ou &#64;gmail.com
+</mat-error>
+
+
+
+</mat-form-field>
+
 
   <mat-form-field appearance="outline" class="w-100">
-    <mat-label>Prénom</mat-label>
-    <input matInput formControlName="prenom">
-    <mat-error *ngIf="form.get('prenom')?.hasError('required')">
-      Le prénom est obligatoire.
-    </mat-error>
-  </mat-form-field>
-
-  <mat-form-field appearance="outline" class="w-100">
-    <mat-label>Email</mat-label>
-    <input matInput formControlName="email" type="email">
-    <mat-error *ngIf="form.get('email')?.hasError('required')">
-      L'email est obligatoire.
-    </mat-error>
-    <mat-error *ngIf="form.get('email')?.hasError('email')">
-      Format d'email invalide.
-    </mat-error>
-  </mat-form-field>
-
-  <!-- Champ mot de passe avec icône œil -->
-  <mat-form-field appearance="outline" class="w-100">
-    <mat-label>Mot de passe</mat-label>
-    <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="password" readonly>
-    <button mat-icon-button matSuffix (click)="togglePasswordVisibility()" type="button">
+    <mat-label>🔒 Mot de passe</mat-label>
+    <input
+      matInput
+      [type]="hidePassword ? 'password' : 'text'"
+      formControlName="password"
+      readonly
+    />
+    <button
+      mat-icon-button
+      matSuffix
+      (click)="togglePasswordVisibility()"
+      type="button"
+    >
       <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
     </button>
   </mat-form-field>
 
-  <mat-form-field appearance="outline" class="w-100">
-    <mat-label>Id parent</mat-label>
-    <input matInput formControlName="idparent" type="number">
-  </mat-form-field>
+
 
   <mat-form-field appearance="outline" class="w-100">
-    <mat-label>Rôle</mat-label>
+    <mat-label>🎭 Rôle</mat-label>
     <mat-select formControlName="role">
       <mat-option value="SUPERIEUR_HEARARCHIQUE">Supérieur hiérarchique</mat-option>
       <mat-option value="EMPLOYE">Employé</mat-option>
@@ -59,5 +75,12 @@
 
 <mat-dialog-actions align="end">
   <button mat-button (click)="onCancel()">Annuler</button>
-  <button mat-flat-button color="primary" [disabled]="form.invalid" (click)="onSubmit()">Ajouter</button>
+  <button
+    mat-flat-button
+    color="primary"
+    [disabled]="form.invalid"
+    (click)="onSubmit()"
+  >
+    Ajouter
+  </button>
 </mat-dialog-actions>

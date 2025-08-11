@@ -9,6 +9,7 @@ import { EvenementService } from 'src/app/services/evenement.service';
 import { ValidationRhDialogComponent } from '../validation-rh-dialog/validation-rh-dialog.component';
 import { EvenementDTO } from 'src/app/Models/EvenementDTO';
 import { DetailsValidationRhDialogComponent } from '../details-validation-rh-dialog/details-validation-rh-dialog.component';
+import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-reponse-demande',
@@ -19,6 +20,7 @@ import { DetailsValidationRhDialogComponent } from '../details-validation-rh-dia
     MatIconModule,
     MatDialogModule,
     MatButtonModule,
+    MatPaginator
   ],
   templateUrl: './reponse-demande.component.html',
   styleUrls: ['./reponse-demande.component.scss']

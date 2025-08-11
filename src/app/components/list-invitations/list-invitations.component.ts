@@ -15,6 +15,7 @@ import { EnvoyerInvitationComponent } from '../envoyer-invitation/envoyer-invita
 
 import { InvitationserviceService } from 'src/app/services/invitationservice.service';
 import { DialogModifierInvitationComponent } from '../dialog-modifier-invitation/dialog-modifier-invitation.component';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-list-invitations',
@@ -107,26 +108,32 @@ export class ListInvitationsComponent {
     });
   }
 
-  supprimerInvitation(invitation: any): void {
-    const confirmMsg = `Voulez-vous vraiment supprimer l'invitation pour ${invitation.nom} ${invitation.prenom} ?`;
-    if (confirm(confirmMsg)) {
+
+
+supprimerInvitation(invitation: any): void {
+  Swal.fire({
+    title: 'Êtes-vous sûr ?',
+    text: `Voulez-vous vraiment supprimer l'invitation pour ${invitation.nom} ${invitation.prenom} ?`,
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#d33',
+    cancelButtonColor: '#3085d6',
+    confirmButtonText: 'Oui, supprimer',
+    cancelButtonText: 'Annuler'
+  }).then((result) => {
+    if (result.isConfirmed) {
       this.invitationService.supprimerInvitation(invitation.idInvitation).subscribe({
         next: () => {
-          // Met à jour la liste localement après suppression
           this.invitations = this.invitations.filter(i => i.idInvitation !== invitation.idInvitation);
-          this.snackBar.open('Invitation supprimée avec succès.', 'Fermer', {
-            duration: 3000,
-            panelClass: ['snackbar-success']
-          });
+          Swal.fire('Supprimé !', 'L\'invitation a été supprimée avec succès.', 'success');
         },
         error: err => {
           console.error('Erreur lors de la suppression :', err);
-          this.snackBar.open('Échec de la suppression.', 'Fermer', {
-            duration: 3000,
-            panelClass: ['snackbar-error']
-          });
+          Swal.fire('Erreur', 'Échec de la suppression.', 'error');
         }
       });
     }
-  }
+  });
+}
+
 }

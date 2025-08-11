@@ -1,16 +1,37 @@
-.form-container {
+.dialog-form {
   display: flex;
   flex-direction: column;
-  gap: 15px;
-  padding: 15px;
+  gap: 1rem;
+
+  .row {
+    display: flex;
+    gap: 1rem;
+
+    .w-50 {
+      flex: 1;
+    }
+  }
+
+  .w-100 {
+    width: 100%;
+  }
 }
 
-.full-width {
-  width: 100%;
-}
-
-.actions {
+mat-dialog-actions {
   display: flex;
   justify-content: flex-end;
-  gap: 10px;
+  gap: 1rem;
+  padding-top: 1rem;
+
+  button[mat-flat-button] {
+    background: linear-gradient(90deg, #7F3FBF, #7F3FBF);
+    color: white;
+    font-weight: 600;
+
+    &:disabled {
+      background: linear-gradient(90deg, #7F3FBF, #7F3FBF);
+      color: #eeeeee;
+      cursor: not-allowed;
+    }
+  }
 }

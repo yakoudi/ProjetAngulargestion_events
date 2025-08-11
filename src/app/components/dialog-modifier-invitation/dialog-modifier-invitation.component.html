@@ -1,111 +1,50 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-  <meta charset="UTF-8" />
-  <title>Modifier l'invitation - Tessi</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: 'Segoe UI', sans-serif;
-      color: #1d1d1f;
-    }
-
-    .form-container {
-      border-radius: 12px;
-      padding: 40px 30px;
-      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
-      background-color: white;
-    }
-
-    h2 {
-      text-align: center;
-      color: #0072C6; /* Couleur inspirée de Tessi */
-      margin-bottom: 30px;
-    }
-
-    mat-form-field {
-      display: block;
-      margin-bottom: 24px;
-      width: 100%;
-    }
-
-    textarea[matInput], input[matInput] {
-      background-color: #f9f9f9;
-      padding: 12px;
-      border-radius: 6px;
-      border: 1px solid #ddd;
-      font-size: 15px;
-    }
-
-    mat-form-field.mat-focused .mat-form-field-flex {
-      background-color: #ffffff;
-      box-shadow: 0 0 4px 1px rgba(0, 114, 198, 0.25);
-    }
-
-    button[mat-raised-button] {
-      background: linear-gradient(to right, #7F3FBF, #FF5F6D) !important;
-      color: white !important;
-      font-weight: bold;
-      border-radius: 50px;
-      padding: 20px 30px;
-      margin-left: 145px;
-      border: none;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-
-    button[mat-raised-button]:hover {
-      opacity: 0.9;
-    }
-  </style>
-</head>
 <body>
-  <div class="form-container">
-    <h2>📝 Modifier une Invitation</h2>
+  <div class="page-container">
+    <div class="dialog-container">
+      <h2 class="dialog-title">✏️ Modifier une Invitation</h2>
 
-    <form [formGroup]="invitationForm" (ngSubmit)="modifier()">
+      <form class="dialog-form" [formGroup]="invitationForm" (ngSubmit)="modifier()">
 
-      <mat-form-field appearance="fill">
-        <mat-label>Utilisateur</mat-label>
-        <mat-select formControlName="idUser" [compareWith]="compareById">
-          <mat-option *ngFor="let user of utilisateurs" [value]="user.idUser">
-            {{ user.email }}
-          </mat-option>
-        </mat-select>
-        <mat-error *ngIf="invitationForm.get('idUser')?.hasError('required')">
-          Veuillez sélectionner un utilisateur
-        </mat-error>
-      </mat-form-field>
+        <!-- Ligne Utilisateur + Événement -->
+        <div class="form-row">
+          <div>
+            <label for="idUser"><span class="icon">👤</span> Utilisateur*</label>
+            <select id="idUser" formControlName="idUser" required>
+              <option value="" disabled>-- Sélectionner utilisateur --</option>
+              <option *ngFor="let user of utilisateurs" [value]="user.idUser">{{ user.email }}</option>
+            </select>
+            <div class="form-error" *ngIf="invitationForm.get('idUser')?.invalid && invitationForm.get('idUser')?.touched">
+              Veuillez sélectionner un utilisateur.
+            </div>
+          </div>
 
-      <mat-form-field appearance="fill">
-        <mat-label>Événement</mat-label>
-        <mat-select formControlName="idEvenement" [compareWith]="compareById">
-          <mat-option *ngFor="let event of evenements" [value]="event.idEvenement">
-            {{ event.titre }}
-          </mat-option>
-        </mat-select>
-        <mat-error *ngIf="invitationForm.get('idEvenement')?.hasError('required')">
-          Veuillez sélectionner un événement
-        </mat-error>
-      </mat-form-field>
+          <div>
+            <label for="idEvenement"><span class="icon">📅</span> Événement*</label>
+            <select id="idEvenement" formControlName="idEvenement" required>
+              <option value="" disabled>-- Sélectionner événement --</option>
+              <option *ngFor="let event of evenements" [value]="event.idEvenement">{{ event.titre }}</option>
+            </select>
+            <div class="form-error" *ngIf="invitationForm.get('idEvenement')?.invalid && invitationForm.get('idEvenement')?.touched">
+              Veuillez sélectionner un événement.
+            </div>
+          </div>
+        </div>
 
-      <mat-form-field appearance="fill">
-        <mat-label>Message</mat-label>
-        <textarea matInput formControlName="message" placeholder="Ex: Bonjour Cher, Vous êtes invité à..."></textarea>
-        <mat-error *ngIf="invitationForm.get('message')?.hasError('required')">
-          Le message est requis.
-        </mat-error>
-        <mat-error *ngIf="invitationForm.get('message')?.hasError('minlength')">
-          Message trop court (min. 5 caractères).
-        </mat-error>
-      </mat-form-field>
+        <!-- Message -->
+        <div>
+          <label for="message"><span class="icon">💬</span> Message*</label>
+          <textarea id="message" rows="4" formControlName="message" placeholder="Ex: Bonjour Cher, Vous êtes invité à..." required></textarea>
+          <div class="form-error" *ngIf="invitationForm.get('message')?.invalid && invitationForm.get('message')?.touched">
+            Le message est requis.
+          </div>
+        </div>
 
-      <button mat-raised-button type="submit" [disabled]="invitationForm.invalid">
-        Enregistrer les modifications
-      </button>
-    </form>
+        <!-- Actions -->
+        <div class="dialog-actions">
+          <button type="button" class="cancel-btn" >Annuler</button>
+          <button type="submit" class="confirm-btn" [disabled]="invitationForm.invalid">Enregistrer les modifications</button>
+        </div>
+      </form>
+    </div>
   </div>
 </body>
-</html>

@@ -16,6 +16,18 @@ import { ListInvitationsComponent } from './components/list-invitations/list-inv
 import { EnvoyerInvitationComponent } from './components/envoyer-invitation/envoyer-invitation.component';
 import { CalendarComponent } from './components/calendar/calendar.component';
 import { ProfilComponent } from './components/profil/profil.component';
+import { AppTotalFollowersComponent } from './components/total-followers/total-followers.component';
+import { AppTotalIncomeComponent } from './components/total-income/total-income.component';
+import { Component } from '@angular/core';
+import { CreateEVFinalDialogComponent } from './components/create-evfinal-dialog/create-evfinal-dialog.component';
+import { ListeEventComponent } from './components/liste-event/liste-event.component';
+import { StatsEvenementsComponent } from './components/stats-evenements/stats-evenements.component';
+import { EvolutionTopCategorieComponent } from './components/evolution-top-categorie/evolution-top-categorie.component';
+import { FournisseurServiceService } from './services/fournisseur-service.service';
+import { StatFournisseurComponent } from './components/stat-fournisseur/stat-fournisseur.component';
+
+import { PluscherEventComponent } from './components/pluscher-event/pluscher-event.component';
+import { TauxParticipationComponent } from './components/taux-participation/taux-participation.component';
 
 
 
@@ -34,14 +46,21 @@ export const routes: Routes = [
     component: DashboardRHComponent,  
      children :[
        { path:'listeuser',  component:ListeuserComponent} ,
-      {path:'modifier-profil', component: ModifierProfilComponent},
+     
       {path:'reponse-demande', component:ReponseDemandeComponent},
      { path: 'fournisseurs', component: ListefournisseurComponent },
-      {path:'card', component:AppBlogCardsComponent},
+      {path:'sale', component:AppTotalIncomeComponent},
       {path:'invitation', component:ListInvitationsComponent},
       {path:'envoyerinvitation', component : EnvoyerInvitationComponent},
-      {path:'profil', component:ProfilComponent}
-
+      {path:'profil', component:ProfilComponent},
+      {path:'createvfinaldialog',component:CreateEVFinalDialogComponent},
+      {path:'listeFinaledialog',component:ListeEventComponent},
+       {path:'statstique',component:StatsEvenementsComponent},
+       {path:'categories',component:EvolutionTopCategorieComponent},
+       {path:'fournisseur',component:StatFournisseurComponent},
+       {path:'plus-cher', component:PluscherEventComponent},
+       {path:'taux-participant',component:TauxParticipationComponent},
+    
 
     ]
  
@@ -56,7 +75,8 @@ export const routes: Routes = [
       },
       {path:'modifier-profil', component: ModifierProfilComponent},
       {path:'calander', component: CalendarComponent},
-      {path:'profil', component:ProfilComponent}
+      {path:'profil', component:ProfilComponent},
+     
       
     
      

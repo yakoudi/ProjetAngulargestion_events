@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class AuthServiceService {
 
-   private apiUrl = 'http://localhost:8083/api/applications/login'; // adapte l'URL si besoin
+   private apiUrl = 'http://localhost:8083/api/applications/login'; 
 
   constructor(private http: HttpClient) {}
 
@@ -31,5 +31,26 @@ export class AuthServiceService {
   logout(): void {
     localStorage.removeItem('token');
   }
+
+  envoyerCode(email: string) {
+  return this.http.post<{ message?: string; error?: string }>(
+    'http://localhost:8083/api/applications/sendcode',
+    { email }
+  );
+}
+verifierCode(email: string, code: string) {
+  return this.http.post<{ message?: string; error?: string }>(
+    'http://localhost:8083/api/applications/verifycode',
+    { email, code }
+  );
+}
+
+resetPassword(email: string, code: string, nouveauMotDePasse: string) {
+  return this.http.post<{ message?: string; error?: string }>(
+    'http://localhost:8083/api/applications/resetpassword',
+    { email, code, nouveauMotDePasse }
+  );
+}
+
 }
 

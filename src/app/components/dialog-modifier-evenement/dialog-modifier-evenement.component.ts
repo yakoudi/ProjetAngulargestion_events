@@ -80,6 +80,30 @@ export class DialogModifierEvenementComponent {
   }
   return d.toISOString().split('T')[0]; // => 'YYYY-MM-DD'
 }
+
+
+  // Tableau des catégories (mêmes valeurs que l'enum Java)
+categories = [
+  'TEAM_BUILDING',
+  'REUNION',
+  'CONFERENCE',
+  'SEMINAIRE',
+  'ATELIER',
+  'ANNIVERSAIRE_ENTREPRISE',
+  'AUTRE'
+];
+
+// Fonction pour afficher un label plus lisible
+formatCategorie(cat: string): string {
+  return cat
+    .toLowerCase()
+    .replace(/_/g, ' ')
+    .replace(/\b\w/g, l => l.toUpperCase());
+}
+
+
+
+ 
 }
 
 

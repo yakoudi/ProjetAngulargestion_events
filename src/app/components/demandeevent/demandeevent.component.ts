@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, OnInit } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MaterialModule } from '../../material.module';
@@ -35,7 +35,8 @@ import Swal from 'sweetalert2';
     MatNativeDateModule,
   ],
   templateUrl: './demandeevent.component.html',
-  styleUrls: ['./demandeevent.component.scss']  // corrigé ici
+   schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  styleUrls: ['./demandeevent.component.scss']  
 })
 export class DemandeeventComponent implements OnInit {
   isDialogOpen = false;
@@ -165,37 +166,52 @@ ouvrirDialogModification(event: any): void {
     });
   }
 
-  supprimerEvenement(id: number): void {
+  supprimerEvenement(id: number, status: string): void {
+  if (status !== 'EN_ATTENTE') {
     Swal.fire({
-      title: 'Êtes-vous sûr ?',
-      text: "Cette action est irréversible !",
       icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Oui, supprimer !',
-      cancelButtonText: 'Annuler'
-    }).then((result) => {
-      if (result.isConfirmed) {
-        this.evenementService.supprimerEvenement(id).subscribe({
-          next: () => {
-            this.loadEvenements();
-            Swal.fire(
-              'Supprimé !',
-              'L\'événement a été supprimé avec succès.',
-              'success'
-            );
-          },
-          error: (err: any) => {
-            console.error('Erreur suppression', err);
-            Swal.fire(
-              'Erreur !',
-              'La suppression a échoué.',
-              'error'
-            );
-          }
-        });
-      }
+      title: 'Action non autorisée',
+      text: '❌ Vous ne pouvez supprimer que les demandes en attente.',
     });
+    return;
   }
+
+  Swal.fire({
+    title: 'Êtes-vous sûr ?',
+    text: "Cette action est irréversible !",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Oui, supprimer !',
+    cancelButtonText: 'Annuler'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      this.evenementService.supprimerEvenement(id).subscribe({
+        next: () => {
+          this.loadEvenements(); // recharge la liste
+          Swal.fire('Supprimé !', 'L\'événement a été supprimé avec succès.', 'success');
+        },
+        error: (err: any) => {
+          console.error('Erreur suppression', err);
+          Swal.fire('Erreur !', 'La suppression a échoué.', 'error');
+        }
+      });
+    }
+  });
+}
+
+  getStatusClass(status: string): string {
+  switch (status) {
+    case 'VALIDEE':
+      return 'status-validée';
+    case 'REFUSEE':
+      return 'status-refusée';
+    case 'EN_ATTENTE':
+      return 'status-attente';
+    default:
+      return 'status-inconnu';
+  }
+}
+
 }

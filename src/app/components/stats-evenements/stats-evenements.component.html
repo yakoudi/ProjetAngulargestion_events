@@ -1,0 +1,25 @@
+<div class="stats-container">
+  <h3>Statistiques des événements par RH</h3>
+  <div class="chart-wrapper">
+    <canvas baseChart
+      [data]="chartData"
+      [options]="barChartOptions"
+      [type]="'bar'">
+    </canvas>
+  </div>
+
+  <h3>Répartition par catégorie</h3>
+  <div class="chart-wrapper">
+    <canvas baseChart
+      type="pie"
+      [data]="pieChartData"
+      [options]="pieChartOptions"
+      [plugins]="chartjsPlugins">
+    </canvas>
+  </div>
+
+  <app-stat-fournisseur></app-stat-fournisseur>
+    <app-pluscher-event></app-pluscher-event>
+  <app-taux-participation></app-taux-participation>
+
+  </div>
