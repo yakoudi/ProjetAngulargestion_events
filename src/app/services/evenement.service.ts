@@ -150,8 +150,14 @@ getStatsFournisseursUtilisation(): Observable<{ [key: string]: number }> {
 }
 
  getEvenementPlusCherAvecRepartition(): Observable<any> {
-    return this.http.get(`${this.baseUrl}/pluscher` ,this.getAuthHeaders());
+    return this.http.get(`${this.baseUrl}/plus-cher` ,this.getAuthHeaders());
   }
+  countEvenementsParRh(): Observable<number> {
+  return this.http.get<number>(`${this.baseUrl}/countByRh` ,this.getAuthHeaders());
+  
+  
+
+}
 
 
 

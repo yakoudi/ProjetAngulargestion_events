@@ -1,67 +1,83 @@
-<h2 mat-dialog-title>➕ Ajouter un utilisateur</h2>
+<h2 mat-dialog-title class="dialog-title">➕ Ajouter un utilisateur</h2>
 
 <mat-dialog-content [formGroup]="form" class="dialog-form">
 
+  <!-- Nom + Prénom sur la même ligne -->
   <div class="row">
-    <mat-form-field appearance="outline" class="w-50">
-      <mat-label>Nom</mat-label>
-      <input matInput formControlName="nom" />
+    <div class="form-group">
+      <div class="emoji-label">📝Nom</div>
+      <input
+        matInput
+      
+        formControlName="nom"
+        class="simple-input"
+      />
       <mat-error *ngIf="form.get('nom')?.hasError('required')">
         Le nom est obligatoire.
       </mat-error>
-    </mat-form-field>
+    </div>
 
-    <mat-form-field appearance="outline" class="w-50">
-      <mat-label>Prénom</mat-label>
-      <input matInput formControlName="prenom" />
+    <div class="form-group">
+      <div class="emoji-label">🪪Prenom</div>
+      <input
+        matInput
+       
+        formControlName="prenom"
+        class="simple-input"
+      />
       <mat-error *ngIf="form.get('prenom')?.hasError('required')">
         Le prénom est obligatoire.
       </mat-error>
-    </mat-form-field>
+    </div>
   </div>
 
- 
-   <mat-form-field appearance="outline" class="w-100">
-  <mat-label>📧 Email</mat-label>
-  <input matInput formControlName="email" type="email" />
-  <mat-error *ngIf="form.get('email')?.hasError('required')">
-    L'email est obligatoire.
-  </mat-error>
-  <mat-error *ngIf="form.get('email')?.hasError('email')">
-    Format d'email invalide.
-  </mat-error>
-<mat-error *ngIf="form.get('email')?.hasError('emailDomainInvalid')">
-  L'email doit se terminer par &#64;tessi.fr ou &#64;gmail.com
-</mat-error>
-
-
-
-</mat-form-field>
-
-
-  <mat-form-field appearance="outline" class="w-100">
-    <mat-label>🔒 Mot de passe</mat-label>
+  <!-- Email -->
+  <div class="form-group full-width">
+    <div class="emoji-label">📧Email</div>
     <input
       matInput
-      [type]="hidePassword ? 'password' : 'text'"
-      formControlName="password"
-      readonly
+     
+      type="email"
+      formControlName="email"
+      class="simple-input"
     />
-    <button
-      mat-icon-button
-      matSuffix
-      (click)="togglePasswordVisibility()"
-      type="button"
-    >
-      <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
-    </button>
-  </mat-form-field>
+    <mat-error *ngIf="form.get('email')?.hasError('required')">
+      L'email est obligatoire.
+    </mat-error>
+    <mat-error *ngIf="form.get('email')?.hasError('email')">
+      Format d'email invalide.
+    </mat-error>
+    <mat-error *ngIf="form.get('email')?.hasError('emailDomainInvalid')">
+      L'email doit se terminer par &#64;tessi.fr ou &#64;gmail.com
+    </mat-error>
+  </div>
 
+  <!-- Mot de passe -->
+  <div class="form-group full-width">
+    <div class="emoji-label">🔒Mot de Passe</div>
+    <div class="password-wrapper">
+      <input
+        matInput
+        
+        [type]="hidePassword ? 'password' : 'text'"
+        formControlName="password"
+        class="password-input"
+        readonly
+      />
+      <button
+        mat-icon-button
+        type="button"
+        (click)="togglePasswordVisibility()"
+      >
+        <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+      </button>
+    </div>
+  </div>
 
-
-  <mat-form-field appearance="outline" class="w-100">
-    <mat-label>🎭 Rôle</mat-label>
-    <mat-select formControlName="role">
+  <!-- Rôle -->
+  <div class="form-group full-width">
+    <div class="emoji-label">🎭 Role</div>
+    <mat-select formControlName="role" class="simple-input">
       <mat-option value="SUPERIEUR_HEARARCHIQUE">Supérieur hiérarchique</mat-option>
       <mat-option value="EMPLOYE">Employé</mat-option>
       <mat-option value="DIRECTEUR">Directeur</mat-option>
@@ -69,12 +85,12 @@
     <mat-error *ngIf="form.get('role')?.hasError('required')">
       Le rôle est obligatoire.
     </mat-error>
-  </mat-form-field>
+  </div>
 
 </mat-dialog-content>
 
-<mat-dialog-actions align="end">
-  <button mat-button (click)="onCancel()">Annuler</button>
+<mat-dialog-actions align="end" class="dialog-actions">
+  <button mat-stroked-button color="warn" (click)="onCancel()">Annuler</button>
   <button
     mat-flat-button
     color="primary"

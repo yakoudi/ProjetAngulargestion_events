@@ -65,5 +65,10 @@ getUserPhoto(filename: string): string {
   return `http://localhost:8083/api/utilisateurs/photo/${filename}`;
 }
 
+countUsers(): Observable<number> {
+  return this.http.get<number>(`${this.apiUrl}/count`,this.getAuthHeaders());
+}
+
+
 
 }
