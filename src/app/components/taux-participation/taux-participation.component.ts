@@ -52,8 +52,8 @@ export class TauxParticipationComponent implements OnInit {
             {
               label: 'Nombre de participants acceptés',
               data: data.map(d => d['nombreValidées']),  // utilise la notation crochets pour la clé avec accent
-              backgroundColor: 'rgba(75, 192, 192, 0.7)',
-              borderColor: 'rgba(75, 192, 192, 1)',
+              backgroundColor: '#3f51b5',
+              borderColor: '#3f51b5',
               borderWidth: 1
             }
           ]

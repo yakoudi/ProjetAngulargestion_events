@@ -1,25 +1,46 @@
-<div class="stats-container">
-  <h3>Statistiques des événements par RH</h3>
-  <div class="chart-wrapper">
-    <canvas baseChart
-      [data]="chartData"
-      [options]="barChartOptions"
-      [type]="'bar'">
-    </canvas>
-  </div>
 
-  <h3>Répartition par catégorie</h3>
-  <div class="chart-wrapper">
-    <canvas baseChart
-      type="pie"
-      [data]="pieChartData"
-      [options]="pieChartOptions"
-      [plugins]="chartjsPlugins">
-    </canvas>
-  </div>
 
-  <app-stat-fournisseur></app-stat-fournisseur>
-    <app-pluscher-event></app-pluscher-event>
-  <app-taux-participation></app-taux-participation>
+<main class="dashboard-container">
 
-  </div>
+  <section aria-label="Statistiques principales" class="cards-row">
+    <article class="count-card user-count-card">
+      <header><h2>👥 Nombre d'utilisateurs</h2></header>
+      <p class="stat-value">{{ nbUsers }}</p>
+    </article>
+
+    <article class="count-card event-count-card">
+      <header><h2>📅 Nombre d'événements créés par le RH connecté</h2></header>
+      <p class="stat-value">{{ nbEvenementsParRh }}</p>
+    </article>
+  </section>
+
+  <section aria-labelledby="title-evenements-rh">
+    <header><h3 id="title-evenements-rh" class="section-title">Statistiques des événements par RH</h3></header>
+    <figure class="chart-wrapper">
+      <canvas baseChart [data]="chartData" [options]="barChartOptions" [type]="'bar'"></canvas>
+      <figcaption>Graphique en barres des événements par RH</figcaption>
+    </figure>
+  </section>
+
+  <section aria-labelledby="title-repartition-categorie">
+    <header><h3 id="title-repartition-categorie" class="section-title">Répartition par catégorie</h3></header>
+    <figure class="chart-wrapper">
+      <canvas baseChart type="pie" [data]="pieChartData" [options]="pieChartOptions" [plugins]="chartjsPlugins"></canvas>
+      <figcaption>Diagramme circulaire de la répartition par catégorie</figcaption>
+    </figure>
+  </section>
+
+  <aside aria-label="Statistiques supplémentaires" class="sidebar">
+   
+     <app-pluscher-event></app-pluscher-event>
+       <app-taux-participation></app-taux-participation>
+        <app-stat-fournisseur></app-stat-fournisseur>
+   
+  </aside>
+  
+    
+  
+  
+
+</main>
+

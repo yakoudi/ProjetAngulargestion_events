@@ -1,11 +1,23 @@
-<h2 mat-dialog-title>Détails de l'utilisateur</h2>
-<mat-dialog-content>
-  <p><strong>Nom:</strong> {{ data.nom }}</p>
-  <p><strong>Prénom:</strong> {{ data.prenom }}</p>
-  <p><strong>Email:</strong> {{ data.email }}</p>
-  <p><strong>Parent:</strong> {{ data.parent?.id || '-' }}</p>
-  <p><strong>Rôle:</strong> {{ data.role }}</p>
+<h2 mat-dialog-title class="dialog-title">Détails de l’utilisateur</h2>
+<mat-dialog-content class="dialog-content">
+  <div class="info-item">
+    <span>📝</span>
+    <strong>Nom :</strong> <span>{{ data.nom }}</span>
+  </div>
+  <div class="info-item">
+    <span>🪪</span>
+    <strong>Prénom :</strong> <span>{{ data.prenom }}</span>
+  </div>
+  <div class="info-item">
+    <span>📧</span>
+    <strong>Email :</strong> <span>{{ data.email }}</span>
+  </div>
+
+  <div class="info-item">
+    <span>🎯</span>
+    <strong>Rôle :</strong> <span>{{ data.role }}</span>
+  </div>
 </mat-dialog-content>
-<mat-dialog-actions align="end">
-  <button mat-button mat-dialog-close>Fermer</button>
+<mat-dialog-actions align="end" class="dialog-actions">
+  <button mat-stroked-button color="primary" mat-dialog-close>Fermer</button>
 </mat-dialog-actions>

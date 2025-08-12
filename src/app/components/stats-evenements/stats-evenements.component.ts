@@ -9,25 +9,27 @@ import {
 } from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { EvenementService } from 'src/app/services/evenement.service';
+import { UserService } from 'src/app/services/user.service';  // <-- bien importer
 import { EvolutionTopCategorieComponent } from "../evolution-top-categorie/evolution-top-categorie.component";
 import { StatFournisseurComponent } from "../stat-fournisseur/stat-fournisseur.component";
 import { PluscherEventComponent } from "../pluscher-event/pluscher-event.component";
 import { TauxParticipationComponent } from "../taux-participation/taux-participation.component";
-
-
+import { MatCard, MatCardContent, MatCardTitle } from '@angular/material/card';
 
 Chart.register(...registerables, ChartDataLabels);
 
 @Component({
   selector: 'app-stats-evenements',
-  standalone: true,
-  imports: [NgChartsModule, EvolutionTopCategorieComponent, StatFournisseurComponent, PluscherEventComponent, TauxParticipationComponent],
+  imports: [NgChartsModule, EvolutionTopCategorieComponent, StatFournisseurComponent, PluscherEventComponent, TauxParticipationComponent, MatCardContent, MatCard, MatCardTitle],
   templateUrl: './stats-evenements.component.html',
   styleUrls: ['./stats-evenements.component.scss']
 })
 export class StatsEvenementsComponent implements OnInit {
 
-  // 📈 Évolution par mois et par catégorie
+  nbUsers: number = 0;
+  nbEvenementsParRh: number = 0;
+
+
   evolutionChartData!: ChartData<'bar'>;
   evolutionChartOptions: ChartOptions<'bar'> = {
     responsive: true,
@@ -37,7 +39,6 @@ export class StatsEvenementsComponent implements OnInit {
     }
   };
 
-  // 📊 Nombre d’événements par RH
   chartData!: ChartData<'bar'>;
   barChartOptions: ChartOptions<'bar'> = {
     responsive: true,
@@ -47,7 +48,6 @@ export class StatsEvenementsComponent implements OnInit {
     }
   };
 
-  // 🥧 Répartition par catégorie (en %)
   pieChartType: ChartType = 'pie';
   chartjsPlugins = [ChartDataLabels];
   pieChartData: ChartData<'pie', number[], string | string[]> = {
@@ -92,11 +92,23 @@ export class StatsEvenementsComponent implements OnInit {
     }
   };
 
-  constructor(private evenementService: EvenementService) { }
+  utilisateurs: any;
+
+  constructor(
+    private evenementService: EvenementService,
+    private userService: UserService  // <-- injection ici
+  ) { }
 
   ngOnInit(): void {
     this.loadBarChartSimple();
     this.loadPieChart();
+    this.loadUserCount();
+    this.evenementService.countEvenementsParRh().subscribe({
+  next: count => this.nbEvenementsParRh = count,
+  error: err => console.error('Erreur chargement nombre événements RH', err)
+});
+
+    
   }
 
   private loadBarChartSimple() {
@@ -112,14 +124,19 @@ export class StatsEvenementsComponent implements OnInit {
     });
   }
 
+  loadUserCount(): void {
+    this.userService.countUsers().subscribe({
+      next: count => this.nbUsers = count,
+      error: err => console.error('Erreur chargement nombre utilisateurs', err)
+    });
+  }
+
   private loadPieChart() {
     this.evenementService.getStatsPourcentageCategorie().subscribe(data => {
       this.pieChartData.labels = data.map(item => item.categorie);
       this.pieChartData.datasets[0].data = data.map(item => item.percentage);
     });
   }
-
-
 
   private getRandomColor(): string {
     const letters = '0123456789ABCDEF';

@@ -13,6 +13,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { UserService } from '../../services/user.service';
 import { EvenementService } from '../../services/evenement.service';
 import { InvitationserviceService } from 'src/app/services/invitationservice.service';
+import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-envoyer-invitation',
@@ -38,6 +39,7 @@ export class EnvoyerInvitationComponent implements OnInit {
   evenements: any[] = [];
 
   constructor(
+    private dialogRef: MatDialogRef<EnvoyerInvitationComponent>,
     private fb: FormBuilder,
     private invitationService: InvitationserviceService,
     private userService: UserService,
@@ -68,6 +70,9 @@ export class EnvoyerInvitationComponent implements OnInit {
       error: err => console.error('Erreur lors du chargement des événements', err)
     });
   }
+  annuler(): void {
+  this.dialogRef.close();
+}
 
   envoyer(): void {
     if (this.invitationForm.valid) {

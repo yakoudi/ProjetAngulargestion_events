@@ -11,9 +11,8 @@
       <!-- Titre -->
       <div class="form-row">
         <mat-form-field appearance="outline" class="full-width">
-          <mat-label>🏷️ Titre*</mat-label>
-          <input matInput formControlName="titre" required />
-          <mat-error *ngIf="evenementForm.get('titre')?.hasError('required')">Le titre est requis</mat-error>
+          <label for="titre" class="custom-label"><span class="icon">🏷️</span> Titre*</label>
+          <input matInput id="titre" formControlName="titre" required />
         </mat-form-field>
       </div>
 
@@ -22,68 +21,52 @@
         <label for="imageEvenement" class="custom-label">
           <span class="icon">🖼️</span> Image de l’événement
         </label><br />
-        <input
-          type="file"
-          id="imageEvenement"
-          (change)="onImageEvenementSelected($event)"
-          accept="image/*"
-          aria-label="Image de l'événement"
-        />
+        <input type="file" id="imageEvenement" (change)="onImageEvenementSelected($event)" accept="image/*" />
       </div>
 
       <!-- Description -->
-      <div class="form-row">
-        <mat-form-field appearance="outline" class="full-width">
-          <mat-label>🖋️ Description</mat-label>
-          <textarea matInput formControlName="description" rows="4"></textarea>
-        </mat-form-field>
+      <div>
+        <label for="description" class="custom-label">
+          <span class="icon">🖋️</span> Description
+        </label>
+        <textarea matInput id="description" formControlName="description" rows="4"></textarea>
       </div>
 
       <!-- Date / Lieu / Coût -->
       <div class="form-row">
-        <mat-form-field appearance="outline" class="half-width">
-          <mat-label>📅 Date*</mat-label>
-          <input matInput [matDatepicker]="picker" formControlName="dateEvenement" required />
+        <mat-form-field appearance="outline" class="full-width">
+          <label for="dateEvenement" class="custom-label"><span class="icon">📅</span> Date*</label>
+          <input matInput id="dateEvenement" [matDatepicker]="picker" formControlName="dateEvenement" />
           <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
           <mat-datepicker #picker></mat-datepicker>
-          <mat-error *ngIf="evenementForm.get('dateEvenement')?.hasError('required')">La date est requise</mat-error>
         </mat-form-field>
 
-        <mat-form-field appearance="outline" class="half-width">
-          <mat-label>📍 Lieu</mat-label>
-          <input matInput formControlName="lieuEvenement" />
+        <mat-form-field appearance="outline" class="full-width">
+          <label for="lieuEvenement" class="custom-label"><span class="icon">📍</span> Lieu</label>
+          <input matInput id="lieuEvenement" formControlName="lieuEvenement" />
         </mat-form-field>
 
-        <mat-form-field appearance="outline" class="half-width">
-          <mat-label>💰 Coût*</mat-label>
-          <input matInput type="number" formControlName="cout" required min="0" />
-          <mat-error *ngIf="evenementForm.get('cout')?.hasError('required')">Le coût est requis</mat-error>
-          <mat-error *ngIf="evenementForm.get('cout')?.hasError('min')">Le coût doit être positif</mat-error>
+        <mat-form-field appearance="outline" class="full-width">
+          <label for="cout" class="custom-label"><span class="icon">💰</span> Coût*</label>
+          <input matInput id="cout" type="number" formControlName="cout" />
         </mat-form-field>
       </div>
 
-     <!-- Participants -->
+      <!-- Participants -->
       <section class="form-section">
         <h3><span class="icon">👥</span> Participants</h3>
-        <div formArrayName="participants" class="participants-list">
-          <div *ngFor="let participant of participantsArray.controls; let i = index" [formGroupName]="i" class="participant-row">
-
-            <mat-form-field appearance="outline" class="participant-select">
-              <mat-label>Participant*</mat-label>
-              <mat-select formControlName="idUser" required (selectionChange)="onParticipantSelected(i)">
-                <mat-option *ngFor="let user of utilisateurs" [value]="user.idUser">
-                  {{ user.email }}
-                </mat-option>
-              </mat-select>
-              <mat-error *ngIf="participant.get('idUser')?.hasError('required')">Veuillez sélectionner un participant</mat-error>
+        <div formArrayName="participantsIds">
+          <div *ngFor="let idCtrl of participantsArray.controls; let i = index" class="form-row">
+            <mat-form-field appearance="outline" class="full-width">
+              <label [for]="'participant-'+i" class="custom-label"><span class="icon">👤</span> ID Participant</label>
+              <input matInput [id]="'participant-'+i" [formControlName]="i" />
             </mat-form-field>
-            <button mat-icon-button color="warn" type="button" (click)="removeParticipant(i)" aria-label="Supprimer participant" class="remove-btn">
+            <button mat-icon-button color="warn" type="button" (click)="removeParticipant(i)" aria-label="Supprimer participant">
               <mat-icon>delete</mat-icon>
             </button>
           </div>
         </div>
-
-        <button mat-stroked-button color="primary" type="button" (click)="addParticipant()" class="add-participant-btn">
+        <button mat-stroked-button color="primary" type="button" (click)="addParticipant()">
           <span class="icon">➕</span> Ajouter un participant
         </button>
       </section>
@@ -91,35 +74,37 @@
       <!-- Fournisseurs -->
       <section class="form-section">
         <h3><span class="icon">🏢</span> Fournisseurs</h3>
+
         <div formArrayName="fournisseurs">
           <div
             *ngFor="let fournisseur of fournisseursArray.controls; let i = index"
             [formGroupName]="i"
-            class="form-row fournisseur-row"
+            class="form-row"
           >
-            <mat-form-field appearance="outline" class="half-width">
-              <mat-label>🏷️ Nom</mat-label>
-              <input matInput formControlName="nom" />
+            <mat-form-field appearance="outline" class="full-width">
+              <label [for]="'nom-'+i" class="custom-label"><span class="icon">🏷️</span> Nom</label>
+              <input matInput [id]="'nom-'+i" formControlName="nom" />
             </mat-form-field>
 
-            <mat-form-field appearance="outline" class="half-width">
-              <mat-label>📧 Email</mat-label>
-              <input matInput formControlName="email" type="email" />
+            <mat-form-field appearance="outline" class="full-width">
+              <label [for]="'email-'+i" class="custom-label"><span class="icon">📧</span> Email</label>
+              <input matInput [id]="'email-'+i" formControlName="email" />
             </mat-form-field>
 
-            <mat-form-field appearance="outline" class="half-width">
-              <mat-label>📞 Numéro</mat-label>
-              <input matInput formControlName="numero" />
+            <mat-form-field appearance="outline" class="full-width">
+              <label [for]="'numero-'+i" class="custom-label"><span class="icon">📞</span> Numéro</label>
+              <input matInput [id]="'numero-'+i" formControlName="numero" />
             </mat-form-field>
 
-            <mat-form-field appearance="outline" class="half-width">
-              <mat-label>🏷️ Type</mat-label>
-              <mat-select formControlName="type">
+            <mat-form-field appearance="outline" class="full-width">
+              <label [for]="'type-'+i" class="custom-label"><span class="icon">🏷️</span> Type</label>
+              <mat-select [id]="'type-'+i" formControlName="type">
                 <mat-option value="SECURITE">Sécurité</mat-option>
                 <mat-option value="NETTOYAGE">Nettoyage</mat-option>
                 <mat-option value="MAINTENANCE">Maintenance</mat-option>
-                <mat-option value="TEAMBUILDING">TeamBuilding</mat-option>
-                <mat-option value="IMPRIMERIE">Imprimerie</mat-option>
+                <mat-option value="MAINTENANCE">TeamBuilding</mat-option>
+                <mat-option value="MAINTENANCE">Impremerie</mat-option>
+
               </mat-select>
             </mat-form-field>
 
@@ -135,22 +120,16 @@
                   mat-stroked-button
                   color="primary"
                   (click)="triggerFileInput(i)"
-                  aria-label="Parcourir les fichiers fournisseur"
                 >
                   <mat-icon>attach_file</mat-icon> Parcourir
                 </button>
 
-                <span class="file-name" *ngIf="fileNames[i]">
-                  📄 {{ fileNames[i] }}
-                  <a
-                    *ngIf="fileUrls[i]"
-                    [href]="fileUrls[i]"
-                    target="_blank"
-                    rel="noopener"
-                    style="margin-left: 8px; color: #7F3FBF; text-decoration: underline;"
-                    >Voir le document</a
-                  >
-                </span>
+               <span class="file-name" *ngIf="fileNames[i]">
+             📄 {{ fileNames[i] }}
+          <a *ngIf="fileUrls[i]" [href]="fileUrls[i]" target="_blank" style="margin-left: 8px; color: #7F3FBF; text-decoration: underline;">
+    Voir le document
+  </a>
+</span>
 
                 <input
                   type="file"
@@ -158,18 +137,11 @@
                   #fileInput
                   (change)="onFileChange($event, i)"
                   hidden
-                  aria-label="Choisir un document fournisseur"
                 />
               </div>
             </div>
 
-            <button
-              mat-icon-button
-              color="warn"
-              type="button"
-              (click)="removeFournisseur(i)"
-              aria-label="Supprimer fournisseur"
-            >
+            <button mat-icon-button color="warn" type="button" (click)="removeFournisseur(i)" aria-label="Supprimer fournisseur">
               <mat-icon>delete</mat-icon>
             </button>
           </div>
@@ -192,7 +164,6 @@
     </form>
   </div>
 </mat-card>
-
 
 <style>
 
